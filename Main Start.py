@@ -65,6 +65,9 @@ class Vendor:
     def display(self):
         print(f"{self.name}: Fertilizer Cost:£{self.fertilizer_cost}/litre \nFeed Cost:£{self.feed_cost}/g \nSalt Cost{self.salt_cost}/g")
 
+Slippery = Vendor('Slippery Lakes',0.30,0.10,0.05)
+Scaly = Vendor('Scaly_Wholesaler',0.20,0.40,0.25)
+
 ##### Hatchery Class
 
 class Hatchery:
@@ -104,7 +107,7 @@ while True:
 
 #current supplies in warehouses
 
-#current hatchery cash 
+#current hatchery cash 1
 
 #Amount to pay for technicians: 4500 x number of technicians))
 #Amount for utilities: 1500 
@@ -114,8 +117,10 @@ while True:
 #Choose which vendor to buy from
 #Print Prices
 restock_Fertilizer = input('Where would you like to purchase your Fertilizer from?')
-Slippery.display()
-Scaly.display()
+
+print(Slippery.display())
+print(Scaly.display())
+
 restock_Feed = input('Where would you like to purchase your Feed from?')
 restock_Salt = input('Where would you like to purchase your Salt from?')
 #Display vendors (select 1 or 2) 
