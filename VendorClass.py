@@ -16,4 +16,4 @@ Scaly = Vendor('Scaly_Wholesaler',0.20,0.40,0.25)
 
 print(Slippery.__dict__)
 print(Scaly.__dict__)
-print(Vendor.display)
+Slippery.display()

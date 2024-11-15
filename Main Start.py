@@ -44,7 +44,8 @@ while True:
 #Choose which vendor to buy from
 #Print Prices
 restock_Fertilizer = input('Where would you like to purchase your Fertilizer from?')
-print(Vendor.display)
+Slippery.display()
+Scaly.display()
 restock_Feed = input('Where would you like to purchase your Feed from?')
 restock_Salt = input('Where would you like to purchase your Salt from?')
 #Display vendors (select 1 or 2) 
