@@ -18,11 +18,11 @@ class Fish:
         self.salt = salt
         self.maintaince_time = maintaince_time
 
-
     def description(self):
-        return f"{self.species}: Fertilizer Use:{self.fertilizer}ml \nFeed use: {self.feed}kg \nSalt Use:{self.salt}kg \nMaintainence Time: {self.maintaince_time}"
+        print(f"{self.species}: Fertilizer Use:{self.fertilizer}ml \nFeed use: {self.feed}kg \nSalt Use:{self.salt}kg \nMaintainence Time: {self.maintaince_time}")
 
         
+
 #Warehouse and its costs 
 # Supply Main Capacity Aux Capacity Depreciation Warehouse Costs
 # Fertiliser 20 litres 10 litres 0.4/quarter £0.10 / litre
