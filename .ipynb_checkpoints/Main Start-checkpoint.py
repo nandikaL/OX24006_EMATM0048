@@ -49,7 +49,7 @@ print(Aux_Warehouse.__dict__)
 #depreciation = cost x remainder
 
 ##### Technician Class
-class Technician:
+class Techician:
     def __init__(self,name):
         self.name = name
 
@@ -76,33 +76,6 @@ class Hatchery:
         self.supplies = supplies
         self.cash = cash
         self.techs = techs
-    
-    current_techs = []    
-    
-    def Tech_Roster(num):
-        while True: 
-            num = int(input().strip())
-            if num == 0:
-                print("No changes made")
-                print(current_techs)
-            elif num > 0:
-                for i in range(num):
-                    new_tech = input().strip().lower()
-                    if new_tech in current_techs:
-                        print('We already hired them')
-                    else:
-                        current_techs.append(new_tech)
-                        new_tech = Technician(new_tech)
-            elif num < 0:
-                while num < 0:
-                    num += 1
-                    fire_tech = input().strip().lower()
-                    if fire_tech in current_techs:
-                        current_techs.remove(fire_tech)
-                    else:
-                        print('We never hired this stranger')
-            else:
-                print('Invalid response')
 
 #Very rough plan. 
 #Inputs
