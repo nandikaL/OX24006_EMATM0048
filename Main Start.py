@@ -52,6 +52,8 @@ print(Aux_Warehouse.__dict__)
 class Technician:
     def __init__(self,name):
         self.name = name
+        self.work_days = 45 #9weeks x 5day/week
+        self.pay = 500
 
 ###### Vendor Class
 
@@ -71,40 +73,47 @@ Scaly = Vendor('Scaly_Wholesaler',0.20,0.40,0.25)
 ##### Hatchery Class
 
 class Hatchery:
-    def __init__(self,fish_quantity,supplies,cash,techs):
-        self.fish_quantity = fish_quantity
+    def __init__(self,supplies,cash,techs):
         self.supplies = supplies
         self.cash = cash
         self.techs = techs
     
-    current_techs = []    
-    
-    def Tech_Roster(num):
-        while True: 
-            num = int(input().strip())
-            if num == 0:
-                print("No changes made")
-                print(current_techs)
-            elif num > 0:
-                for i in range(num):
-                    new_tech = input().strip().lower()
-                    if new_tech in current_techs:
-                        print('We already hired them')
-                    else:
-                        current_techs.append(new_tech)
-                        new_tech = Technician(new_tech)
-            elif num < 0:
-                while num < 0:
-                    num += 1
-                    fire_tech = input().strip().lower()
-                    if fire_tech in current_techs:
-                        current_techs.remove(fire_tech)
-                    else:
-                        print('We never hired this stranger')
-            else:
-                print('Invalid response')
+    current_techs = []
 
-#Very rough plan. 
+    def tech_display():
+        for item in Hatchery.current_techs:
+            print(f'Hired:{item},Pay:£{self.pay}')
+    
+    def Tech_Roster():
+        print(Hatchery.current_techs)
+        num = int(input().strip())
+        if num == 0:
+            print("No changes made")
+            print(Hatchery.current_techs)
+        elif num > 0:
+            while num > 0:
+                print('Please enter the name of the tech you want to hire:')
+                print('If more than one please enter one name at a time.')
+                new_tech = input().strip().lower()
+                if new_tech in Hatchery.current_techs:
+                    print('We already hired them')
+                else:
+                    num -= 1
+                    Hatchery.current_techs.append(new_tech)
+                    new_tech = Technician(new_tech)
+                    print(Hatchery.current_techs)
+        elif num < 0:
+            while num < 0:
+                fire_tech = input().strip().lower()
+                if fire_tech in Hatchery.current_techs:
+                    Hatchery.current_techs.remove(fire_tech)
+                    num += 1
+                else:
+                    print('We never hired this stranger')
+        else:
+            print('Invalid response')
+
+# Very rough plan. 
 #Inputs
 print("Welcome to Fish Tycoon, Please Try Not to Go Bankrupt.")
 print("Have fun!")
@@ -114,15 +123,17 @@ print("Have fun!")
 quaters = input('Please type in the number of quaters to run this simulation for')
 
 #How many technicians would you like to add or remove?
-while True:
-    technician_number=int(input('Please write the NUMBER of technicians you would like to hire'))
-    for x in range (technician_number):
-        #Technician names 
-        tech_name = input('Please type the name of the technician you would like to hire')
-        #if in dict or class of tech names, do nothing
-        #else, all into dict or class 
-        print(f"Hired {tech_name.title()}, Days of Work = 45, Total Payment = 500")
-    break
+print('How many technicians are you adding or removing this quater? Please type a whole number')
+Hatchery.Tech_Roster()
+# while True:
+#     technician_number=int(input('Please write the NUMBER of technicians you would like to hire'))
+#     for x in range (technician_number):
+#         #Technician names 
+#         tech_name = input('Please type the name of the technician you would like to hire')
+#         #if in dict or class of tech names, do nothing
+#         #else, all into dict or class 
+#         print(f"Hired {tech_name.title()}, Days of Work = 45, Total Payment = 500")
+#     break
 #"Hired ___, Total Payment: 500x9, total days of working 5x9=45
 
 #How many fish sold
