@@ -79,7 +79,6 @@ class Hatchery:
         self.techs = techs
     
     current_techs = []
-    current_techs_len = len(current_techs)
 
     def tech_display():
         for item in Hatchery.current_techs:
@@ -89,13 +88,14 @@ class Hatchery:
         print('Please choose how many technicians you would like to add or remove')
         print('To add, please type a positive number. Example: To add 2, type 2')
         print('To remove, please type a negative number. Example: To remove 2, type -2')
+        print('For no change type 0')
         print('Please note, there must be between 1 to 5 technicians')  
         print('Current Technicians:')
         print(Hatchery.current_techs)
         num = int(input().strip())
-        total = (num+Hatchery.current_techs_len)
+        total = (num+len(Hatchery.current_techs))
         if total < 1:
-            print(f'There must be at least one technician')
+            print(f'There must be at least 1 technician If you remove {num} technicians, there will be {total}')
             return Hatchery.Tech_Roster()
         elif total > 5:
             print(f'There cannot be more than 5 technicians. If you add {num} technicians, there will be {total}')
@@ -118,6 +118,8 @@ class Hatchery:
                         print(Hatchery.current_techs)
             elif num < 0:
                 while num < 0:
+                    print('Please enter the name of the tech you want to fire:')
+                    print('If more than one please enter one name at a time.')
                     fire_tech = input().strip().lower()
                     if fire_tech in Hatchery.current_techs:
                         Hatchery.current_techs.remove(fire_tech)
@@ -126,7 +128,18 @@ class Hatchery:
                         print('We never hired this stranger')
             else:
                 print('Invalid response')
-
+    
+    def Tech_Again():
+        print('Do you want to make any more changes? Please type [1] for Yes and [2] for No')
+        ans = int(input().strip().lower())
+        if ans == 1:
+            Hatchery.Tech_Roster()
+        elif ans == 2:
+            return
+        else:
+            print('I do not understand.')
+            Hatchery.Tech_Again()
+    
 ####
 # Very rough plan. 
 #Inputs
@@ -139,6 +152,8 @@ quaters = input('Please type in the number of quaters to run this simulation for
 
 #How many technicians would you like to add or remove?
 Hatchery.Tech_Roster()
+Hatchery.Tech_Again()
+
 # while True:
 #     technician_number=int(input('Please write the NUMBER of technicians you would like to hire'))
 #     for x in range (technician_number):
