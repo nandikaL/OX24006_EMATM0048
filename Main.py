@@ -4,35 +4,46 @@ from WarehouseClass import Warehouse
 from TechicianClass import Technician
 from VendorClass import Vendor
 from HatcheryClass import Hatchery
-from QuarterClass import Quarter
+#from QuarterClass import Quarter
 
 #Instances 
 
-Fin = Fish('Clef Fins',100.0,12,2,2.0,25,250)
-Snapper = Fish('Timpani Snapper', 50.0, 9, 2, 1.0, 10, 350)
-Brim = Fish('Andalusian Brim', 90.0, 6, 2, 0.5, 15, 250)
-Cod = Fish('Plagal Cod', 100.0, 10, 2, 2.0, 20, 400)
-Flounder = Fish('Fugue Flounder', 200.0, 12, 2, 2.5, 30, 550)
-Bass = Fish('Modal Bass', 300.0, 12, 6, 3.0, 50, 500) 
+Fin_i = Fish('Clef Fins',100.0,12,2,2.0,25,250)
+Snapper_i = Fish('Timpani Snapper', 50.0, 9, 2, 1.0, 10, 350)
+Brim_i = Fish('Andalusian Brim', 90.0, 6, 2, 0.5, 15, 250)
+Cod_i = Fish('Plagal Cod', 100.0, 10, 2, 2.0, 20, 400)
+Flounder_i = Fish('Fugue Flounder', 200.0, 12, 2, 2.5, 30, 550)
+Bass_i = Fish('Modal Bass', 300.0, 12, 6, 3.0, 50, 500) 
 
-print(Fin.__dict__)
-print(Snapper.__dict__)
-print(Brim.__dict__)
-print(Cod.__dict__)
-print(Flounder.__dict__)
-print(Bass.__dict__)
+Fin = Fin_i.__dict__
+Snapper = Snapper_i.__dict__
+Brim = Brim_i.__dict__
+Cod = Cod_i.__dict__
+Flounder = Flounder_i.__dict__
+Bass = Bass_i.__dict__
+
+Fishies = [Fin,Snapper,Brim,Cod,Flounder,Bass]
+Fishys = [Fin_i.__dict__,Snapper_i.__dict__]
+print(Fishies)
+print(Fishys)
+
+# print(Snapper.__dict__)
+# print(Brim.__dict__)
+# print(Cod.__dict__)
+# print(Flounder.__dict__)
+# print(Bass.__dict__)
 
 Main_Warehouse = Warehouse('Main',20,400,200)
 Aux_Warehouse = Warehouse('Aux',10,200,100)
 
-print(Main_Warehouse.__dict__)
-print(Aux_Warehouse.__dict__)
+# print(Main_Warehouse.__dict__)
+# print(Aux_Warehouse.__dict__)
 
 Slippery = Vendor('Slippery Lakes',0.30,0.10,0.05)
 Scaly = Vendor('Scaly_Wholesaler',0.20,0.40,0.25)
 
-print(Slippery.__dict__)
-print(Scaly.__dict__)
+# print(Slippery.__dict__)
+# print(Scaly.__dict__)
 
 
 #All classes placed here as importing is not working
@@ -56,7 +67,7 @@ Hatchery.Tech_Again()
 
 #How many fish sold # make function for changing demand??? 
 #standardized amount 
-Quarter.deplete_stocks(fishy=Fish.self) #how do i do this???
+#Quarter.deplete_stocks(fishy=Fish.self) #how do i do this???
 
 
 #current supplies in warehouses

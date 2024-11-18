@@ -7,11 +7,11 @@ from TechicianClass import Technician
 from VendorClass import Vendor
 from HatcheryClass import Hatchery
 
-class Quarter:
-    current_stock_dict = {'maint_time':0, 'fert':0, 'feed':0, 'salt':0, 'cash':10000}
+class Quarter(self):
+    self.current_stock_dict = {'maint_time':0, 'fert':0, 'feed':0, 'salt':0, 'cash':10000}
 
-    def Current_stocks():
-        Quarter.Current_stock_dict['maint_time']=len(Hatchery.current_techs)*45 #45 days of work per person
+    def Current_stocks(self):
+        self.Current_stock_dict['maint_time']=len(Hatchery.current_techs)*45 #45 days of work per person
 
         #Adding sum of items in the warehouse 
         Quarter.current_stock_dict['fert'] = sum(Warehouse.Fert)
@@ -21,7 +21,7 @@ class Quarter:
         #does anything happen with cash here?
     
 
-    def deplete_stocks(fishy):
+    def deplete_stocks(self, fishy):
         
         for fish in fishy: 
 
