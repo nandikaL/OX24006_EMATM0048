@@ -11,9 +11,4 @@ class Warehouse:
         self.feed_warehouse = 0.001
         self.salt_warehouse = 0.001
 
-Main_Warehouse = Warehouse('Main',20,400,200)
-Aux_Warehouse = Warehouse('Aux',10,200,100)
-print(Main_Warehouse.__dict__)
-print(Aux_Warehouse.__dict__)
-
 #depreciation = cost x remainder

@@ -1,3 +1,39 @@
+#Import
+from FishClass import Fish
+from WarehouseClass import Warehouse
+from TechicianClass import Techician
+from VendorClass import Vendor
+from HatcheryClass import Hatchery
+
+#Instances 
+
+Fin = Fish('Clef Fins',100.0,12,2,2.0,25,250)
+Snapper = Fish('Timpani Snapper', 50.0, 9, 2, 1.0, 10, 350)
+Brim = Fish('Andalusian Brim', 90.0, 6, 2, 0.5, 15, 250)
+Cod = Fish('Plagal Cod', 100.0, 10, 2, 2.0, 20, 400)
+Flounder = Fish('Fugue Flounder', 200.0, 12, 2, 2.5, 30, 550)
+Bass = Fish('Modal Bass', 300.0, 12, 6, 3.0, 50, 500) 
+
+print(Fin.__dict__)
+print(Snapper.__dict__)
+print(Brim.__dict__)
+print(Cod.__dict__)
+print(Flounder.__dict__)
+print(Bass.__dict__)
+
+Main_Warehouse = Warehouse('Main',20,400,200)
+Aux_Warehouse = Warehouse('Aux',10,200,100)
+
+print(Main_Warehouse.__dict__)
+print(Aux_Warehouse.__dict__)
+
+Slippery = Vendor('Slippery Lakes',0.30,0.10,0.05)
+Scaly = Vendor('Scaly_Wholesaler',0.20,0.40,0.25)
+
+print(Slippery.__dict__)
+print(Scaly.__dict__)
+
+
 #All classes placed here as importing is not working
 
 ######Fish Class
