@@ -1,3 +1,6 @@
+###remember to change all the quaters to QUARTER with and R. RRRRRR.
+#### also reminder to edit and convert all the units afterwards 
+
 from FishClass import Fish
 from WarehouseClass import Warehouse
 from TechicianClass import Technician
@@ -16,7 +19,36 @@ class Quarter:
         Quarter.current_stock_dict['feed'] = sum(Warehouse.Salt)
     
 
-    def deplete_stocks():
+    def deplete_stocks(fishy):
+        
+        for fish in fishy: 
+
+            demand = Fish.fertilizer.demand
+            
+            fert_need = Fish.fertilizer * demand
+            feed_need = Fish.feed * demand
+            salt_need = Fish.salt * demand
+
+            if Quarter.current_stock_dict['fert'] >= fert_need:
+                new_fert_value = Quarter.current_stock_dict['fert'] - fert_need
+                Quarter.current_stock_dict['fert'].append(new_fert_value)
+                print(f"{fish.species}: {fert_need}ml fertilizer used.")
+            else:
+                print(f"Not enough fertilizer for {fish.species}. {fert_need}ml needed, only {Quarter.current_stock_dict['fert']}ml available.")
+
+            if Quarter.current_stock_dict['feed'] >= feed_need:
+                new_feed_value=Quarter.current_stock_dict['feed'] - feed_need
+                Quarter.current_stock_dict['feed'].append(new_feed_value)
+                print(f"{fish.species}: {feed_need}kg feed used.")
+            else:
+                print(f"Not enough feed for {fish.species}. {feed_need}kg needed, only {Quarter.current_stock_dict['feed']}kg available.")
+
+            if Quarter.current_stock_dict['salt'] >= salt_need:
+                new_salt_value= Quarter.current_stock_dict['salt'] - salt_need
+                print(f"{fish.species}: {salt_need}kg salt used.")
+            else:
+                print(f"Not enough salt for {fish.species}. {salt_need}kg needed, only {Quarter.current_stock_dict['salt']}kg available.")
+
     #ok so: fish have fert, feed, salt
     #1st type of fish: input number being sold:
     #function loop starts: number of fish * fert 
