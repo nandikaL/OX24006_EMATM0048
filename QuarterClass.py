@@ -57,20 +57,18 @@ class Quarter:
                 continue
 
             new_fert_value = Quarter.current_stock_dict['fert'] - fert_need
-            Quarter.current_stock_dict['fert'].append(new_fert_value)
+            Quarter.current_stock_dict['fert'] = (new_fert_value)
             new_feed_value=Quarter.current_stock_dict['feed'] - feed_need
-            Quarter.current_stock_dict['feed'].append(new_feed_value)
+            Quarter.current_stock_dict['feed'] = (new_feed_value)
             new_salt_value= Quarter.current_stock_dict['salt'] - salt_need
-            Quarter.current_stock_dict['salt'].append(new_salt_value)
+            Quarter.current_stock_dict['salt'] = (new_salt_value)
             new_maint_value = Quarter.current_stock_dict['maint_time']-maint_need
-            Quarter.current_stock_dict['maint_time'].append(new_maint_value)
+            Quarter.current_stock_dict['maint_time'] = (new_maint_value)
 
             ##add money
             fish_rev = Fish.Price * demand 
             add_rev = Quarter.current_stock_dict['cash']+fish_rev
             Quarter.current_stock_dict['cash']+fish_rev
-
-
 
     #ok so: fish have fert, feed, salt
     #1st type of fish: input number being sold:
@@ -86,4 +84,20 @@ class Quarter:
 
     def payments():
         standard = 1500
-        tech_payments = len(Hatchery.current_techs)*4500 #500 mulitpled by 9 weeks 
+        tech_payments = len(Hatchery.current_techs)*4500 #500 mulitpled by 9 weeks
+        depreciation_fert = Quarter.current_stock_dict['fert']-(Quarter.current_stock_dict['fert']*Warehouse.fertilizer_depreciation) #leftover-(leftover*fish.species.depreciation)
+        depreciation_feed = Quarter.current_stock_dict['feed']-(Quarter.current_stock_dict['feed']*Warehouse.fertilizer_depreciation)
+        depreciation_salt = Quarter.current_stock_dict['salt']-(Quarter.current_stock_dict['salt']*Warehouse.fertilizer_depreciation)
+        total_depreciation = depreciation_fert + depreciation_feed + depreciation_salt
+        #can i loop this through the classes?? 
+        warehouse_fert = Quarter.current_stock_dict['fert']*Warehouse.fertilizer_warehouse 
+        warehouse_feed = Quarter.current_stock_dict['fed']*Warehouse.feed_warehouse
+        warehouse_salt = Quarter.current_stock_dict['salt']*Warehouse.salt_warehouse #leftover x fish.species.warehousecost
+        #can be looped?? 
+        total_warehouse = warehouse_fert + warehouse_feed + warehouse_salt
+        total_payments = standard + tech_payments + total_depreciation + total_warehouse
+        print(f"Quarterly warehouse fees: £{standard}\nTotal Technician Salary: £{tech_payments}\nTotal Depreciation: £{total_depreciation}\nTotal Warehouse Costs: £{total_warehouse}")
+        
+        new_cash_value = Quarter.current_stock_dict['cash'] - total_payments
+        Quarter.current_stock_dict['cash'] = new_cash_value
+        #loop through the current stocks dictionary to find the remaining supplies 

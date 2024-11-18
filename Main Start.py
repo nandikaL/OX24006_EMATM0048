@@ -4,6 +4,7 @@ from WarehouseClass import Warehouse
 from TechicianClass import Technician
 from VendorClass import Vendor
 from HatcheryClass import Hatchery
+from QuarterClass import Quarter
 
 #Instances 
 
@@ -52,23 +53,11 @@ quaters = input('Please type in the number of quaters to run this simulation for
 Hatchery.Tech_Roster()
 Hatchery.Tech_Again()
 
-# while True:
-#     technician_number=int(input('Please write the NUMBER of technicians you would like to hire'))
-#     for x in range (technician_number):
-#         #Technician names 
-#         tech_name = input('Please type the name of the technician you would like to hire')
-#         #if in dict or class of tech names, do nothing
-#         #else, all into dict or class 
-#         print(f"Hired {tech_name.title()}, Days of Work = 45, Total Payment = 500")
-#     break
-#"Hired ___, Total Payment: 500x9, total days of working 5x9=45
 
-#How many fish sold
+#How many fish sold # make function for changing demand??? 
 #standardized amount 
+Quarter.deplete_stocks(fishy=Fish.self) #how do i do this???
 
-#some function to calculate the costs per fish sold, loop until run out of any item then say insufficient 
-
-#say say what was unsold 
 
 #current supplies in warehouses
 
