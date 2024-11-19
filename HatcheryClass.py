@@ -5,66 +5,65 @@ class Hatchery:
         self.supplies = supplies
         self.cash = cash
         self.techs = techs
-    
-    current_techs = []
+        self.current_techs = []
 
-    def tech_display():
-        for item in Hatchery.current_techs:
-            print(f'Hired:{item},Pay:£{Hatchery.self.pay}')
+    def tech_display(self):
+        for item in self.current_techs:
+            print(f'Hired:{item},Pay:£{self.pay}')
     
-    def Tech_Roster():
+    def Tech_Roster(self):
         print('Please choose how many technicians you would like to add or remove')
         print('To add, please type a positive number. Example: To add 2, type 2')
         print('To remove, please type a negative number. Example: To remove 2, type -2')
         print('For no change type 0')
         print('Please note, there must be between 1 to 5 technicians')  
         print('Current Technicians:')
-        print(Hatchery.current_techs)
+        print(self.current_techs)
         num = int(input().strip())
-        total = (num+len(Hatchery.current_techs))
+        total = (num+len(self.current_techs))
         if total < 1:
             print(f'There must be at least 1 technician If you remove {num} technicians, there will be {total}')
-            return Hatchery.Tech_Roster()
+            return self.Tech_Roster()
         elif total > 5:
             print(f'There cannot be more than 5 technicians. If you add {num} technicians, there will be {total}')
-            return Hatchery.Tech_Roster()
+            return self.Tech_Roster()
         else:
             if num == 0:
                 print("No changes made")
-                print(Hatchery.current_techs)
+                print(self.current_techs)
             elif num > 0:
                 while num > 0:
                     print('Please enter the name of the tech you want to hire:')
                     print('If more than one please enter one name at a time.')
                     new_tech = input().strip().lower()
-                    if new_tech in Hatchery.current_techs:
+                    if new_tech in self.current_techs:
                         print('We already hired them')
                     else:
                         num -= 1
-                        Hatchery.current_techs.append(new_tech)
+                        self.current_techs.append(new_tech)
                         new_tech = Technician(new_tech)
-                        print(Hatchery.current_techs)
+                        print(self.current_techs)
             elif num < 0:
                 while num < 0:
                     print('Please enter the name of the tech you want to fire:')
                     print('If more than one please enter one name at a time.')
                     fire_tech = input().strip().lower()
-                    if fire_tech in Hatchery.current_techs:
-                        Hatchery.current_techs.remove(fire_tech)
+                    if fire_tech in self.current_techs:
+                        self.current_techs.remove(fire_tech)
                         num += 1
                     else:
                         print('We never hired this stranger')
             else:
                 print('Invalid response')
     
-    def Tech_Again():
+    def Tech_Again(self):
         print('Do you want to make any more changes? Please type [1] for Yes and [2] for No')
         ans = int(input().strip().lower())
         if ans == 1:
-            Hatchery.Tech_Roster()
+            self.Tech_Roster()
         elif ans == 2:
             return
         else:
             print('I do not understand.')
-            Hatchery.Tech_Again()
+            self.Tech_Again()
     
