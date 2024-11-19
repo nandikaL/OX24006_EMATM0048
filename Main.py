@@ -66,9 +66,9 @@ def Current_stocks():
     current_stock_dict['maint_time']=len(Hatchery.current_techs)*45 #45 days of work per person
 
     #Adding sum of items in the warehouse 
-    current_stock_dict['fert'] = 30 #placeholder, find way to add main + aux, is done this way incase we dont max stock
-    current_stock_dict['feed'] = 600
-    current_stock_dict['salt'] = 300
+    current_stock_dict['fert'] = main_warehouse.fertilizer_capacity + aux_warehouse.fertilizer_capacity #placeholder, find way to add main + aux, is done this way incase we dont max stock
+    current_stock_dict['feed'] = main_warehouse.feed_capacity + aux_warehouse.feed_capacity
+    current_stock_dict['salt'] = main_warehouse.feed_capacity + aux_warehouse.feed_capacity
     
  #Function to deplete stocks as fishes get sold   
 def Deplete_stocks():
@@ -120,7 +120,7 @@ def Deplete_stocks():
         ##add money
         fish_rev = species['price'] * demand 
         add_rev = current_stock_dict['cash']+fish_rev
-        current_stock_dict['cash']+fish_rev
+        current_stock_dict['cash']+add_rev
 
     #ok so: fish have fert, feed, salt
     #1st type of fish: input number being sold:
@@ -137,17 +137,13 @@ def Deplete_stocks():
 def Payments():
     standard = 1500 #put this into a class somewhere?
     tech_payments = len(Hatchery.current_techs)*4500 #500 mulitpled by 9 weeks
-    depreciation_fert = current_stock_dict['fert']-(current_stock_dict['fert']*main_warehouse.costs.fertilizer_depreciation) #using main warehouse since does not matter where from
-    depreciation_feed = current_stock_dict['feed']-(current_stock_dict['feed']*main_warehouse.costs.feed_depreciation)
-    depreciation_salt = current_stock_dict['salt']-(current_stock_dict['salt']*main_warehouse.costs.salt_depreciation)
-    total_depreciation = depreciation_fert + depreciation_feed + depreciation_salt
     #can i loop this through the classes?? 
     warehouse_fert = current_stock_dict['fert']*main_warehouse.costs.fertilizer_warehouse 
     warehouse_feed = current_stock_dict['feed']*main_warehouse.costs.feed_warehouse
     warehouse_salt = current_stock_dict['salt']*main_warehouse.costs.salt_warehouse 
     #can be looped?? 
     total_warehouse = warehouse_fert + warehouse_feed + warehouse_salt
-    total_payments = standard + tech_payments + total_depreciation + total_warehouse
+    total_payments = standard + tech_payments + total_warehouse
     print(f"Quarterly warehouse fees: £{standard}\nTotal Technician Salary: £{tech_payments}\nTotal Depreciation: £{total_depreciation}\nTotal Warehouse Costs: £{total_warehouse}")
     
     new_cash_value = current_stock_dict['cash'] - total_payments
@@ -159,19 +155,60 @@ Current_stocks()
 Deplete_stocks()
 Payments() #put in a if/else checkpoint, if currently in the negatives, bankrupt! bad ending
 
-#current supplies in warehouses
+#Now restock your supples : 
+#Display inventory in the two warehouses 
+#function to see how much is left 
+#if amount less > than aux capacity (meaning aux warehouse still has things inside)
+    #diff function
+#if amount less < aux capacity (meaning aux warehouse is empty )
 
-#current hatchery cash 1
+#depreciation happenings: 
+def Depreciate ():
+    depreciation_fert = current_stock_dict['fert']-(current_stock_dict['fert']*main_warehouse.costs.fertilizer_depreciation) #using main warehouse since does not matter where from
+    depreciation_feed = current_stock_dict['feed']-(current_stock_dict['feed']*main_warehouse.costs.feed_depreciation)
+    depreciation_salt = current_stock_dict['salt']-(current_stock_dict['salt']*main_warehouse.costs.salt_depreciation)
 
-#Amount to pay for technicians: 4500 x number of technicians))
-#Amount for utilities: 1500 
-#Amount to pay for depreciation: ?? 
-#Hashery cash - all these above = updated hashery amount 
+def Warehouse_left():
+    if current_stock_dict['fert'] >= aux_warehouse.fertilizer_capacity:
+        aux_warehouse.fertilizer_capacity -= current_stock_dict['fert']
+        if aux_warehouse.fertilizer_capacity <= 0:
+            aux_warehouse.fertilizer_capacity = 0
+    else:
+        main_warehouse.fertilizer_capacity -= current_stock_dict['fert']
+        if main_warehouse.fertilizer_capacity <= 0:
+            main_warehouse.fertilizer_capacity = 0 
+   
+    if current_stock_dict['feed'] >= aux_warehouse.feed_capacity:
+        aux_warehouse.feed_capacity -= current_stock_dict['feed']
+        if aux_warehouse.feed_capacity <= 0:
+            aux_warehouse.feed_capacity = 0
+
+    else:
+        main_warehouse.feed_capacity -= current_stock_dict['feed']
+        if main_warehouse.feed_capacity <= 0:
+            main_warehouse.feed_capacity = 0
+    
+    if current_stock_dict['salt'] >= aux_warehouse.salt_capacity:
+        aux_warehouse.salt_capacity -= current_stock_dict['salt']
+        if aux_warehouse.salt_capacity <= 0:
+            aux_warehouse.salt_capacity = 0
+    else:
+        main_warehouse.salt_capacity -= current_stock_dict['salt']
+        if main_warehouse.salt_capacity <= 0:
+            aux_warehouse.salt_capacity = 0
+    
+    print(f"Fertilizer left in Main Warehouse: {main_warehouse.fertilizer_capacity}")
+    print(f"Fertilizer left in Auxillary Warehouse: {aux_warehouse.fertilizer_capacity}")
+    print(f"Feed left in Main Warehouse: {main_warehouse.feed_capacity}")
+    print(f"Feed left in Auxillary Warehouse: {aux_warehouse.feed_capacity}")
+    print(f"Salt left in Main Warehouse: {main_warehouse.salt_capacity}")
+    print(f"Salt left in Auxillary Warehouse: {aux_warehouse.salt_capacity}")
+
+Warehouse_left()
 
 #Choose which vendor to buy from
 #Print Prices
 restock_Fertilizer = input('Where would you like to purchase your Fertilizer from?')
-
 print(Slippery.display())
 print(Scaly.display())
 
