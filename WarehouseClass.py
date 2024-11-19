@@ -4,11 +4,21 @@ class Warehouse:
         self.fertilizer_capacity = fertilizer_capacity
         self.feed_capacity = feed_capacity
         self.salt_capacity = salt_capacity
-        self.fertilizer_depreciation = 0.4
-        self.feed_depreciation = 0.1
-        self.salt_depreciation = 0.0
-        self.fertilizer_warehouse = 0.1
-        self.feed_warehouse = 0.001
-        self.salt_warehouse = 0.001
+        self.costs = self.Warehouse_Costs()
+        # self.fertilizer_depreciation = 0.4
+        # self.feed_depreciation = 0.1
+        # self.salt_depreciation = 0.0
+        # self.fertilizer_warehouse = 0.1
+        # self.feed_warehouse = 0.001
+        # self.salt_warehouse = 0.001
+
+    class Warehouse_Costs:
+        def __init__(self):
+            self.fertilizer_depreciation = 0.4
+            self.feed_depreciation = 0.1
+            self.salt_depreciation = 0.0
+            self.fertilizer_warehouse = 0.1
+            self.feed_warehouse = 0.001
+            self.salt_warehouse = 0.001
 
 #depreciation = cost x remainder

@@ -22,8 +22,8 @@ cod = cod_i.__dict__
 flounder = flounder_i.__dict__
 bass = bass_i.__dict__
 
-fishies = [fin,snapper,brim,cod,flounder,bass]
-print(fishies)
+Fishies = [fin,snapper,brim,cod,flounder,bass]
+print(Fishies)
 
 main_warehouse = Warehouse('Main',20,400,200)
 aux_warehouse = Warehouse('Aux',10,200,100)
@@ -71,41 +71,41 @@ def Current_stocks():
     current_stock_dict['salt'] = 300
     
  #Function to deplete stocks as fishes get sold   
-def deplete_stocks():
+def Deplete_stocks():
     #for loop to loop through each item
-    for species in fishies: 
+    for species in Fishies: 
         #determine value of each fish being bought each cycle   
-        demand = fishies['demand']
+        demand = species['demand']
 
         #determine how much of each is needed 
         #demand * fertilizer amount needed per fish    
-        fert_need = fishies['fertilizer'] * demand
-        feed_need = fishies['feed'] * demand
-        salt_need = fishies['salt'] * demand
-        maint_need = fishies['maint_time'] * demand
+        fert_need = species['fertilizer'] * demand
+        feed_need = species['feed'] * demand
+        salt_need = species['salt'] * demand
+        maint_need = species['maint_time'] * demand
 
         if current_stock_dict['fert'] >= fert_need:
-                print(f"{fishies['species']}: {fert_need}ml fertilizer used.")
+                print(f"{species['species']}: {fert_need}ml fertilizer used.")
         else:
-            print(f"Not enough fertilizer for {fishies['species']}. {fert_need}ml needed, only {current_stock_dict['fert']}ml available.")
+            print(f"Not enough fertilizer for {species['species']}. {fert_need}ml needed, only {current_stock_dict['fert']}ml available.")
             continue
 
         if current_stock_dict['feed'] >= feed_need:
-            print(f"{fishies['species']}: {feed_need}kg feed used.")
+            print(f"{species['species']}: {feed_need}kg feed used.")
         else:
-            print(f"Not enough feed for {fishies['species']}. {feed_need}kg needed, only {current_stock_dict['feed']}kg available.")
+            print(f"Not enough feed for {species['species']}. {feed_need}kg needed, only {current_stock_dict['feed']}kg available.")
             continue
 
         if current_stock_dict['salt'] >= salt_need:
-            print(f"{fishies['species']}: {salt_need}kg salt used.")
+            print(f"{species['species']}: {salt_need}kg salt used.")
         else:
-            print(f"Not enough salt for {fishies['species']}. {salt_need}kg needed, only {current_stock_dict['salt']}kg available.")
+            print(f"Not enough salt for {species['species']}. {salt_need}kg needed, only {current_stock_dict['salt']}kg available.")
             continue
         #####Maintenence 
         if current_stock_dict['maint_time']>=maint_need:
             print(f"{maint_need} days of work taken")
         else:
-            print(f"Not enough labour for {fishies['species']}. {maint_need} required, only {current_stock_dict['maint_time']} available")
+            print(f"Not enough labour for {species['species']}. {maint_need} required, only {current_stock_dict['maint_time']} available")
             continue
 
         new_fert_value = current_stock_dict['fert'] - fert_need
@@ -118,7 +118,7 @@ def deplete_stocks():
         current_stock_dict['maint_time'] = (new_maint_value)
 
         ##add money
-        fish_rev = fishies['price'] * demand 
+        fish_rev = species['price'] * demand 
         add_rev = current_stock_dict['cash']+fish_rev
         current_stock_dict['cash']+fish_rev
 
@@ -134,25 +134,30 @@ def deplete_stocks():
     #loopy loop
 
 
-    def payments():
-        standard = 1500 #put this into a class somewhere?
-        tech_payments = len(Hatchery.current_techs)*4500 #500 mulitpled by 9 weeks
-        depreciation_fert = current_stock_dict['fert']-(current_stock_dict['fert']*Warehouse.fertilizer_depreciation) #leftover-(leftover{fishies['species'].depreciation)
-        depreciation_feed = current_stock_dict['feed']-(current_stock_dict['feed']*Warehouse.fertilizer_depreciation)
-        depreciation_salt = current_stock_dict['salt']-(current_stock_dict['salt']*Warehouse.fertilizer_depreciation)
-        total_depreciation = depreciation_fert + depreciation_feed + depreciation_salt
-        #can i loop this through the classes?? 
-        warehouse_fert = current_stock_dict['fert']*Warehouse.fertilizer_warehouse 
-        warehouse_feed = current_stock_dict['fed']*Warehouse.feed_warehouse
-        warehouse_salt = current_stock_dict['salt']*Warehouse.salt_warehouse #leftover x{fishies['species'].warehousecost
-        #can be looped?? 
-        total_warehouse = warehouse_fert + warehouse_feed + warehouse_salt
-        total_payments = standard + tech_payments + total_depreciation + total_warehouse
-        print(f"Quarterly warehouse fees: £{standard}\nTotal Technician Salary: £{tech_payments}\nTotal Depreciation: £{total_depreciation}\nTotal Warehouse Costs: £{total_warehouse}")
-        
-        new_cash_value = current_stock_dict['cash'] - total_payments
-        current_stock_dict['cash'] = new_cash_value
-        #loop through the current stocks dictionary to find the remaining supplies 
+def Payments():
+    standard = 1500 #put this into a class somewhere?
+    tech_payments = len(Hatchery.current_techs)*4500 #500 mulitpled by 9 weeks
+    depreciation_fert = current_stock_dict['fert']-(current_stock_dict['fert']*main_warehouse.costs.fertilizer_depreciation) #using main warehouse since does not matter where from
+    depreciation_feed = current_stock_dict['feed']-(current_stock_dict['feed']*main_warehouse.costs.feed_depreciation)
+    depreciation_salt = current_stock_dict['salt']-(current_stock_dict['salt']*main_warehouse.costs.salt_depreciation)
+    total_depreciation = depreciation_fert + depreciation_feed + depreciation_salt
+    #can i loop this through the classes?? 
+    warehouse_fert = current_stock_dict['fert']*main_warehouse.costs.fertilizer_warehouse 
+    warehouse_feed = current_stock_dict['feed']*main_warehouse.costs.feed_warehouse
+    warehouse_salt = current_stock_dict['salt']*main_warehouse.costs.salt_warehouse 
+    #can be looped?? 
+    total_warehouse = warehouse_fert + warehouse_feed + warehouse_salt
+    total_payments = standard + tech_payments + total_depreciation + total_warehouse
+    print(f"Quarterly warehouse fees: £{standard}\nTotal Technician Salary: £{tech_payments}\nTotal Depreciation: £{total_depreciation}\nTotal Warehouse Costs: £{total_warehouse}")
+    
+    new_cash_value = current_stock_dict['cash'] - total_payments
+    current_stock_dict['cash'] = new_cash_value
+    print(f"Current Balance: {current_stock_dict['cash']}")
+    
+
+Current_stocks()
+Deplete_stocks()
+Payments() #put in a if/else checkpoint, if currently in the negatives, bankrupt! bad ending
 
 #current supplies in warehouses
 
