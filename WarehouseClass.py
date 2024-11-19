@@ -8,7 +8,7 @@ class Warehouse:
         # self.fertilizer_depreciation = 0.4
         # self.feed_depreciation = 0.1
         # self.salt_depreciation = 0.0
-        # self.fertilizer_warehouse = 0.1
+        # self.fertilizer_warehouse = 0.1 
         # self.feed_warehouse = 0.001
         # self.salt_warehouse = 0.001
 
@@ -17,8 +17,7 @@ class Warehouse:
             self.fertilizer_depreciation = 0.4
             self.feed_depreciation = 0.1
             self.salt_depreciation = 0.0
-            self.fertilizer_warehouse = 0.1
-            self.feed_warehouse = 0.001
-            self.salt_warehouse = 0.001
-
+            self.fertilizer_warehouse = 0.1 #liters
+            self.feed_warehouse = 0.001 #pounds per gram
+            self.salt_warehouse = 0.001 #pounds per gram
 #depreciation = cost x remainder
