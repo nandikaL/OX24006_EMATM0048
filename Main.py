@@ -33,8 +33,8 @@ for fish in Fishies:
 print(Fishies)
 
 #units: liters, kg, kg
-main_warehouse = Warehouse('Main',20,400,200)
-aux_warehouse = Warehouse('Aux',10,200,100)
+main_warehouse = Warehouse('Main',20,20,400,400,200,200)
+aux_warehouse = Warehouse('Aux',10,10,200,200,100,100)
 
 # print(Main_Warehouse.__dict__)
 # print(Aux_Warehouse.__dict__)
@@ -76,9 +76,9 @@ def Current_stocks():
     print(current_stock_dict)
 
     #Adding sum of items in the warehouse 
-    current_stock_dict['fert'] = main_warehouse.fertilizer_capacity + aux_warehouse.fertilizer_capacity #allows for not full replenishing
-    current_stock_dict['feed'] = main_warehouse.feed_capacity + aux_warehouse.feed_capacity
-    current_stock_dict['salt'] = main_warehouse.feed_capacity + aux_warehouse.feed_capacity
+    current_stock_dict['fert'] = main_warehouse.fert_amount + aux_warehouse.fert_amount #allows for not full replenishing
+    current_stock_dict['feed'] = main_warehouse.feed_amount + aux_warehouse.feed_amount
+    current_stock_dict['salt'] = main_warehouse.salt_amount + aux_warehouse.salt_amount
     print(current_stock_dict)
 
  #Function to deplete stocks as fishes get sold   
@@ -176,9 +176,9 @@ Payments() #put in a if/else checkpoint, if currently in the negatives, bankrupt
 #Now restock your supples : 
 #Display inventory in the two warehouses 
 #function to see how much is left 
-#if amount less > than aux capacity (meaning aux warehouse still has things inside)
+#if amount less > than aux.amount (meaning aux warehouse still has things inside)
     #minus off remainder from main warehouse 
-#if amount less < aux capacity (meaning aux warehouse is empty )
+#if amount less < aux.amount (meaning aux warehouse is empty )
 
 #depreciation happenings: 
 def Depreciate ():
@@ -191,40 +191,28 @@ def Depreciate ():
     current_stock_dict['salt'] = post_depreciation_salt
 
 def Warehouse_left():
-    if current_stock_dict['fert'] >= aux_warehouse.fertilizer_capacity:
-        aux_warehouse.fertilizer_capacity -= current_stock_dict['fert']
-        if aux_warehouse.fertilizer_capacity <= 0:
-            aux_warehouse.fertilizer_capacity = 0
-    else:
-        main_warehouse.fertilizer_capacity -= current_stock_dict['fert']
-        if main_warehouse.fertilizer_capacity <= 0:
-            main_warehouse.fertilizer_capacity = 0 
+    #Going by the logic that auxillary will be drained LAST
+    if current_stock_dict['fert'] >= aux_warehouse.fert_amount: #meaning that the aux warehouse will be full
+        main_warehouse.fert_amount = current_stock_dict['fert'] - aux_warehouse.fert_amount #so calculate what is left in main warehosue
+    else: #current_stock_fict['fert'] <= aux_warehouse.fert.amount
+        aux_warehouse.fert_amount = current_stock_dict['fert'] #else main is empty, whatever is left is in the aux
    
-    if current_stock_dict['feed'] >= aux_warehouse.feed_capacity:
-        aux_warehouse.feed_capacity -= current_stock_dict['feed']
-        if aux_warehouse.feed_capacity <= 0:
-            aux_warehouse.feed_capacity = 0
-
+    if current_stock_dict['feed'] >= aux_warehouse.feed_amount:
+        main_warehouse.feed_amount = current_stock_dict['feed'] - aux_warehouse.feed_amount
     else:
-        main_warehouse.feed_capacity -= current_stock_dict['feed']
-        if main_warehouse.feed_capacity <= 0:
-            main_warehouse.feed_capacity = 0
+        aux_warehouse.feed_amount = current_stock_dict['feed']
     
-    if current_stock_dict['salt'] >= aux_warehouse.salt_capacity:
-        aux_warehouse.salt_capacity -= current_stock_dict['salt']
-        if aux_warehouse.salt_capacity <= 0:
-            aux_warehouse.salt_capacity = 0
+    if current_stock_dict['salt'] >= aux_warehouse.salt_amount:
+        main_warehouse.salt_amount = current_stock_dict['salt'] - aux_warehouse.salt_amount
     else:
-        main_warehouse.salt_capacity -= current_stock_dict['salt']
-        if main_warehouse.salt_capacity <= 0:
-            aux_warehouse.salt_capacity = 0
+        main_warehouse.salt_amount = current_stock_dict['salt']
     
-    print(f"Fertilizer left in Main Warehouse: {main_warehouse.fertilizer_capacity}")
-    print(f"Fertilizer left in Auxillary Warehouse: {aux_warehouse.fertilizer_capacity}")
-    print(f"Feed left in Main Warehouse: {main_warehouse.feed_capacity}")
-    print(f"Feed left in Auxillary Warehouse: {aux_warehouse.feed_capacity}")
-    print(f"Salt left in Main Warehouse: {main_warehouse.salt_capacity}")
-    print(f"Salt left in Auxillary Warehouse: {aux_warehouse.salt_capacity}")
+    print(f"Fertilizer left in Main Warehouse: {main_warehouse.fert_amount}")
+    print(f"Fertilizer left in Auxillary Warehouse: {aux_warehouse.fert_amount}")
+    print(f"Feed left in Main Warehouse: {main_warehouse.feed_amount}")
+    print(f"Feed left in Auxillary Warehouse: {aux_warehouse.feed_amount}")
+    print(f"Salt left in Main Warehouse: {main_warehouse.salt_amount}")
+    print(f"Salt left in Auxillary Warehouse: {aux_warehouse.salt_amount}")
 
 Depreciate()
 Warehouse_left()
@@ -235,8 +223,17 @@ Warehouse_left()
 print(Slippery.display())
 print(Scaly.display())
 
-restock_Fertilizer = input('Where would you like to purchase your Fertilizer from?')
-#alr how to loop my fertilizers??? 
+def restocker():
+    fert_restock_amount = main_warehouse.fertilizer_capacity - main_warehouse.fert_amount 
+    restock_Fertilizer = int(input(f'Where would you like to purchase your Fertilizer from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}')) #since the names too long
+    if restock_Fertilizer == 1:
+        fert_price = fert_restock_amount * Slippery.fertilizer_cost
+        print(f"Paid {fert_price} to {Slippery.name})
+    elif restock_Fertilizer == 2:
+        ###????????????
+    else: 
+        print('Type a number I understand please')
+    #alr how to loop my fertilizers??? 
 
 restock_Feed = input('Where would you like to purchase your Feed from?')
 restock_Salt = input('Where would you like to purchase your Salt from?')
