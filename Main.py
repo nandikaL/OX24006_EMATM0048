@@ -224,8 +224,8 @@ print(Slippery.display())
 print(Scaly.display())
 
 def restocker():
-    #Fertilizer
-    fert_restock_amount = main_warehouse.fertilizer_capacity - main_warehouse.fert_amount 
+    #Fertilizer, liters
+    fert_restock_amount = (main_warehouse.fertilizer_capacity - main_warehouse.fert_amount) + (aux_warehouse.fertilizer_capacity-aux_warehouse.fert_amount) 
     restock_fertilizer = int(input(f'Where would you like to purchase your Fertilizer from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}')) #since the names too long
     if restock_fertilizer == 1:
         fert_price = fert_restock_amount * Slippery.fertilizer_cost
@@ -235,23 +235,23 @@ def restocker():
         print(f"Paid {fert_price} to {Scaly.name}")
     else: 
         print('Type a number I understand please') #now how to go back?
-    feed_restock_amount = main_warehouse.feed_capacity - main_warehouse.feed_amount 
+    feed_restock_amount = (main_warehouse.feed_capacity - main_warehouse.feed_amount) + (aux_warehouse.feed_capacity-aux_warehouse.feed_amount) 
     restock_feed = int(input(f'Where would you like to purchase your Feed from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}')) 
     if restock_feed == 1:
-        feed_price = feed_restock_amount * Slippery.feed_cost
+        feed_price = (feed_restock_amount*1000) * Slippery.feed_cost #kg to grams
         print(f"Paid {feed_price} to {Slippery.name}")
     elif restock_feed == 2:
-        feed_price = feed_restock_amount * Scaly.feed_cost
+        feed_price = (feed_restock_amount*1000) * Scaly.feed_cost #kg to grams
         print(f"Paid {feed_price} to {Scaly.name}")
     else: 
         print('Type a number I understand please') #now how to go back?
-    salt_restock_amount = main_warehouse.salt_capacity - main_warehouse.salt_amount 
+    salt_restock_amount = (main_warehouse.salt_capacity - main_warehouse.salt_amount) + (aux_warehouse.salt_capacity-aux_warehouse.salt_amount) 
     restock_salt = int(input(f'Where would you like to purchase your Salt from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}')) 
     if restock_salt == 1:
-        salt_price = salt_restock_amount * Slippery.salt_cost
-        print(f"Paid {feed_price} to {Slippery.name}")
+        salt_price = (salt_restock_amount*1000) * Slippery.salt_cost #kg to grams
+        print(f"Paid {salt_price} to {Slippery.name}")
     elif restock_feed == 2:
-        feed_price = feed_restock_amount * Scaly.fertilizer_cost
+        salt_price = (salt_restock_amount*1000) * Scaly.fertilizer_cost #kg to grams
         print(f"Paid {salt_price} to {Scaly.name}")
     else: 
         print('Type a number I understand please') #now how to go back?
