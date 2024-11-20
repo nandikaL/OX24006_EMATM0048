@@ -8,20 +8,26 @@ class Hatchery:
         self.current_techs = []
     
     class Technician:
-        weeks_work = 9 
-        weeks_pay = 500
-        weeks_total = 12 #can adjsut weeks theyre paid for then
-        day_week = 7
-        total_pay = weeks_pay * weeks_total
-        labourdays = weeks_total * day_week
+        # weeks_work = 9 
+        # weeks_pay = 500
+        # weeks_total = 12 #can adjsut weeks theyre paid for then
+        # day_week = 7
+        # total_pay = weeks_pay * weeks_total
+        # labourdays = weeks_total * day_week
 
         def __init__(self,name):
             self.name = name
+            self.weeks_work = 9 
+            self.weeks_pay = 500
+            self.weeks_total = 12 #can adjsut weeks theyre paid for then
+            self.day_week = 7
+            self.total_pay = self.weeks_pay * self.weeks_total
+            self.labourdays = self.weeks_total * self.day_week
         
 
     def Tech_display(self):
         for tech in self.current_techs:
-            print(f'Hired:{tech},Pay:£{self.Technician.total_pay}')
+            print(f'Hired:{tech.name},Pay:£{tech.total_pay}')
     
     def Tech_Roster(self):
         print('Please choose how many technicians you would like to add or remove')
@@ -52,8 +58,8 @@ class Hatchery:
                         print('We already hired them')
                     else:
                         num -= 1
-                        self.current_techs.append(new_tech)
                         new_tech = self.Technician(new_tech)
+                        self.current_techs.append(new_tech)
                         print(self.current_techs)
             elif num < 0:
                 while num < 0:
