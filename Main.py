@@ -224,17 +224,40 @@ print(Slippery.display())
 print(Scaly.display())
 
 def restocker():
+    #Fertilizer
     fert_restock_amount = main_warehouse.fertilizer_capacity - main_warehouse.fert_amount 
-    restock_Fertilizer = int(input(f'Where would you like to purchase your Fertilizer from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}')) #since the names too long
-    if restock_Fertilizer == 1:
+    restock_fertilizer = int(input(f'Where would you like to purchase your Fertilizer from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}')) #since the names too long
+    if restock_fertilizer == 1:
         fert_price = fert_restock_amount * Slippery.fertilizer_cost
-        print(f"Paid {fert_price} to {Slippery.name})
-    elif restock_Fertilizer == 2:
-        ###????????????
+        print(f"Paid {fert_price} to {Slippery.name}")
+    elif restock_fertilizer == 2:
+        fert_price = fert_restock_amount * Scaly.fertilizer_cost
+        print(f"Paid {fert_price} to {Scaly.name}")
     else: 
-        print('Type a number I understand please')
-    #alr how to loop my fertilizers??? 
+        print('Type a number I understand please') #now how to go back?
+    feed_restock_amount = main_warehouse.feed_capacity - main_warehouse.feed_amount 
+    restock_feed = int(input(f'Where would you like to purchase your Feed from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}')) 
+    if restock_feed == 1:
+        feed_price = feed_restock_amount * Slippery.feed_cost
+        print(f"Paid {feed_price} to {Slippery.name}")
+    elif restock_feed == 2:
+        feed_price = feed_restock_amount * Scaly.feed_cost
+        print(f"Paid {feed_price} to {Scaly.name}")
+    else: 
+        print('Type a number I understand please') #now how to go back?
+    salt_restock_amount = main_warehouse.salt_capacity - main_warehouse.salt_amount 
+    restock_salt = int(input(f'Where would you like to purchase your Salt from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}')) 
+    if restock_salt == 1:
+        salt_price = salt_restock_amount * Slippery.salt_cost
+        print(f"Paid {feed_price} to {Slippery.name}")
+    elif restock_feed == 2:
+        feed_price = feed_restock_amount * Scaly.fertilizer_cost
+        print(f"Paid {salt_price} to {Scaly.name}")
+    else: 
+        print('Type a number I understand please') #now how to go back?
+    
+    restock_price = fert_price+feed_price+salt_price
+    current_stock_dict['cash'] = current_stock_dict['cash'] - restock_price
+    print(current_stock_dict)
 
-restock_Feed = input('Where would you like to purchase your Feed from?')
-restock_Salt = input('Where would you like to purchase your Salt from?')
-#Display vendors (select 1 or 2) 
+restocker()
