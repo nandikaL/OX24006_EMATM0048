@@ -1,15 +1,27 @@
-from TechicianClass import Technician
 
 class Hatchery:
-    def __init__(self,supplies,cash,techs):
+    def __init__(self,supplies,cash):
         self.supplies = supplies
+        
         self.cash = cash
-        self.techs = techs
+        
         self.current_techs = []
+    
+    class Technician:
+        weeks_work = 9 
+        weeks_pay = 500
+        weeks_total = 12 #can adjsut weeks theyre paid for then
+        day_week = 7
+        total_pay = weeks_pay * weeks_total
+        labourdays = weeks_total * day_week
 
-    def tech_display(self):
-        for item in self.current_techs:
-            print(f'Hired:{item},Pay:£{self.pay}')
+        def __init__(self,name):
+            self.name = name
+        
+
+    def Tech_display(self):
+        for tech in self.current_techs:
+            print(f'Hired:{tech},Pay:£{self.Technician.total_pay}')
     
     def Tech_Roster(self):
         print('Please choose how many technicians you would like to add or remove')
@@ -41,7 +53,7 @@ class Hatchery:
                     else:
                         num -= 1
                         self.current_techs.append(new_tech)
-                        new_tech = Technician(new_tech)
+                        new_tech = self.Technician(new_tech)
                         print(self.current_techs)
             elif num < 0:
                 while num < 0:

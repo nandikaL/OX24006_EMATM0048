@@ -9,19 +9,12 @@ from HatcheryClass import Hatchery
 #Instances 
 
 #units are ml,kg,kg,days, not applicable to demand, pounds
-fin_i = Fish('Clef Fins',100.0,12,2,2.0,25,250) 
-snapper_i = Fish('Timpani Snapper', 50.0, 9, 2, 1.0, 10, 350)
-brim_i = Fish('Andalusian Brim', 90.0, 6, 2, 0.5, 15, 250)
-cod_i = Fish('Plagal Cod', 100.0, 10, 2, 2.0, 20, 400)
-flounder_i = Fish('Fugue Flounder', 200.0, 12, 2, 2.5, 30, 550)
-bass_i = Fish('Modal Bass', 300.0, 12, 6, 3.0, 50, 500) 
-
-fin = fin_i.__dict__
-snapper = snapper_i.__dict__
-brim = brim_i.__dict__
-cod = cod_i.__dict__
-flounder = flounder_i.__dict__
-bass = bass_i.__dict__
+fin = Fish('Clef Fins',100.0,12,2,2.0,25,250).__dict__ 
+snapper = Fish('Timpani Snapper', 50.0, 9, 2, 1.0, 10, 350).__dict__
+brim = Fish('Andalusian Brim', 90.0, 6, 2, 0.5, 15, 250).__dict__
+cod = Fish('Plagal Cod', 100.0, 10, 2, 2.0, 20, 400).__dict__
+flounder = Fish('Fugue Flounder', 200.0, 12, 2, 2.5, 30, 550).__dict__
+bass = Fish('Modal Bass', 300.0, 12, 6, 3.0, 50, 500).__dict__
 
 Fishies = [fin,snapper,brim,cod,flounder,bass]
 print(Fishies)
@@ -39,14 +32,14 @@ aux_warehouse = Warehouse('Aux',10,10,200,200,100,100)
 # print(Main_Warehouse.__dict__)
 # print(Aux_Warehouse.__dict__)
 
-#units: pound per liter, pound per gram, pound per gram
+#units: pound per liter, pound per kg, pound per kg
 Slippery = Vendor('Slippery Lakes',0.30,0.10,0.05)
 Scaly = Vendor('Scaly_Wholesaler',0.20,0.40,0.25)
 
 # print(Slippery.__dict__)
 # print(Scaly.__dict__)
 
-Hatchery = Hatchery('supplies', 'cash', 'techs')
+Nans_Hatchy = Hatchery('supplies', 'cash')
 
 ####
 # Very rough plan. 
@@ -59,8 +52,9 @@ print("Have fun!")
 quaters = input('Please type in the number of quaters to run this simulation for')
 
 #How many technicians would you like to add or remove?
-Hatchery.Tech_Roster()
-Hatchery.Tech_Again()
+Hatchery.Tech_Roster(Nans_Hatchy)
+Hatchery.Tech_Again(Nans_Hatchy)
+Hatchery.Tech_display(Nans_Hatchy)
 
 #How many fish sold # make function for changing demand??? 
 #standardized amount 
@@ -72,7 +66,7 @@ current_stock_dict = {'maint_time':0, 'fert':0, 'feed':0, 'salt':0, 'cash':10000
 #Function to update stocks in warehouse ? 
 def Current_stocks():
     #Append to dictionary number of labour days available
-    current_stock_dict['maint_time']=len(Hatchery.current_techs)*45 #45 days of work per person
+    current_stock_dict['maint_time']=len(Nans_Hatchy.current_techs)*45 #45 days of work per person
     print(current_stock_dict)
 
     #Adding sum of items in the warehouse 
@@ -154,7 +148,7 @@ def Deplete_stocks():
 
 def Payments():
     standard = 1500 #put this into a class somewhere?
-    tech_payments = len(Hatchery.current_techs)*4500 #500 mulitpled by 9 weeks
+    tech_payments = len(Nans_Hatchy.current_techs)*4500 #500 mulitpled by 9 weeks
     #can i loop this through the classes?? 
     warehouse_fert = current_stock_dict['fert']*main_warehouse.costs.fertilizer_warehouse #is in liters so it is ok
     warehouse_feed = (current_stock_dict['feed']*1000)*main_warehouse.costs.feed_warehouse #multiply by 1000 to convert to grams
