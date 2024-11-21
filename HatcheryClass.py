@@ -27,7 +27,15 @@ class Hatchery:
 
     def Tech_display(self):
         for tech in self.current_techs:
-            print(f'Hired:{tech.name},Pay:£{tech.total_pay}')
+            print(f'Hired:{tech.name},They will work {tech.labourdays} this quarter. Pay:£{tech.total_pay}')
+    
+    def Tech_names(self):
+        if self.current_techs == []:
+            print('No Techincians Hired Yet')
+        else:
+            for tech in self.current_techs:
+                print(f'Hired:{tech.name},Pay:£{tech.total_pay}')
+            
     
     def Tech_Roster(self):
         print('Please choose how many technicians you would like to add or remove')
@@ -36,7 +44,7 @@ class Hatchery:
         print('For no change type 0')
         print('Please note, there must be between 1 to 5 technicians')  
         print('Current Technicians:')
-        print(self.current_techs)
+        self.Tech_names()
         num = int(input().strip())
         total = (num+len(self.current_techs))
         if total < 1:
@@ -60,7 +68,7 @@ class Hatchery:
                         num -= 1
                         new_tech = self.Technician(new_tech)
                         self.current_techs.append(new_tech)
-                        print(self.current_techs)
+                        print(f"{new_tech} Hired!")
             elif num < 0:
                 while num < 0:
                     print('Please enter the name of the tech you want to fire:')

@@ -39,29 +39,22 @@ Scaly = Vendor('Scaly_Wholesaler',0.20,0.40,0.25)
 # print(Slippery.__dict__)
 # print(Scaly.__dict__)
 
-Nans_Hatchy = Hatchery('supplies', 'cash')
+Nans_Hatchy = Hatchery('supplies', 10000)
+
+#Creating a dictonary of the things that flow in the hatchery
+current_stock_dict = {'maint_time':0, 'fert':0, 'feed':0, 'salt':0, 'cash':Nans_Hatchy.cash} #inside a class? 
 
 ####
 # Very rough plan. 
 #Inputs
 print("Welcome to Fish Tycoon, Please Try Not to Go Bankrupt.")
 print("Have fun!")
+print(f"You currently have £{current_stock_dict['cash']}")
 #Import in Hatchery (hatchery class has everything) 
-
-#Asks for number of quaters to run the cycle
-quaters = input('Please type in the number of quaters to run this simulation for')
-
-#How many technicians would you like to add or remove?
-Hatchery.Tech_Roster(Nans_Hatchy)
-Hatchery.Tech_Again(Nans_Hatchy)
-Hatchery.Tech_display(Nans_Hatchy)
 
 #How many fish sold # make function for changing demand??? 
 #standardized amount 
 #deplete_stocks(fishy=Fish.self) #how do i do this???
-
-#Creating a dictonary of the things that flow in the hatchery
-current_stock_dict = {'maint_time':0, 'fert':0, 'feed':0, 'salt':0, 'cash':10000}
 
 #Function to update stocks in warehouse ? 
 def Current_stocks():
@@ -73,7 +66,7 @@ def Current_stocks():
     current_stock_dict['fert'] = main_warehouse.fert_amount + aux_warehouse.fert_amount #allows for not full replenishing
     current_stock_dict['feed'] = main_warehouse.feed_amount + aux_warehouse.feed_amount
     current_stock_dict['salt'] = main_warehouse.salt_amount + aux_warehouse.salt_amount
-    print(current_stock_dict)
+
 
  #Function to deplete stocks as fishes get sold   
 def Deplete_stocks():
@@ -163,10 +156,6 @@ def Payments():
     print(f"Current Balance: {current_stock_dict['cash']}")
     
 
-Current_stocks()
-Deplete_stocks()
-Payments() #put in a if/else checkpoint, if currently in the negatives, bankrupt! bad ending
-
 #Now restock your supples : 
 #Display inventory in the two warehouses 
 #function to see how much is left 
@@ -176,9 +165,9 @@ Payments() #put in a if/else checkpoint, if currently in the negatives, bankrupt
 
 #depreciation happenings: 
 def Depreciate ():
-    post_depreciation_fert = current_stock_dict['fert']-(current_stock_dict['fert']*main_warehouse.costs.fertilizer_depreciation) #using main warehouse since does not matter where from
-    post_depreciation_feed = current_stock_dict['feed']-(current_stock_dict['feed']*main_warehouse.costs.feed_depreciation)
-    post_depreciation_salt = current_stock_dict['salt']-(current_stock_dict['salt']*main_warehouse.costs.salt_depreciation)
+    post_depreciation_fert = current_stock_dict['fert']*(1-main_warehouse.costs.fertilizer_depreciation) #using main warehouse since does not matter where from
+    post_depreciation_feed = current_stock_dict['feed']*(1-main_warehouse.costs.feed_depreciation)
+    post_depreciation_salt = current_stock_dict['salt']*(1-main_warehouse.costs.salt_depreciation)
 
     current_stock_dict['fert'] = post_depreciation_fert
     current_stock_dict['feed'] = post_depreciation_feed
@@ -208,14 +197,9 @@ def Warehouse_left():
     print(f"Salt left in Main Warehouse: {main_warehouse.salt_amount}")
     print(f"Salt left in Auxillary Warehouse: {aux_warehouse.salt_amount}")
 
-Depreciate()
-Warehouse_left()
 
 #Choose which vendor to buy from
 #Print Prices
-
-print(Slippery.display())
-print(Scaly.display())
 
 def restocker():
     #Fertilizer, liters
@@ -232,10 +216,10 @@ def restocker():
     feed_restock_amount = (main_warehouse.feed_capacity - main_warehouse.feed_amount) + (aux_warehouse.feed_capacity-aux_warehouse.feed_amount) 
     restock_feed = int(input(f'Where would you like to purchase your Feed from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}')) 
     if restock_feed == 1:
-        feed_price = (feed_restock_amount*1000) * Slippery.feed_cost #kg to grams
+        feed_price = feed_restock_amount * Slippery.feed_cost #kg to grams
         print(f"Paid {feed_price} to {Slippery.name}")
     elif restock_feed == 2:
-        feed_price = (feed_restock_amount*1000) * Scaly.feed_cost #kg to grams
+        feed_price = feed_restock_amount * Scaly.feed_cost #kg to grams
         print(f"Paid {feed_price} to {Scaly.name}")
     else: 
         print('Type a number I understand please') #now how to go back?
@@ -254,4 +238,38 @@ def restocker():
     current_stock_dict['cash'] = current_stock_dict['cash'] - restock_price
     print(current_stock_dict)
 
-restocker()
+#Quarter Loopy
+def Quarter():
+    quarters = int(input('Please type in how many quarters Fish Tycoon will run for:'))
+    #error handling to be added
+    while quarters > 0:
+        print(f"Quarter {Quarter} begins:")
+        
+        #Adding the Techs
+        Hatchery.Tech_Roster(Nans_Hatchy)
+        Hatchery.Tech_Again(Nans_Hatchy)
+        Hatchery.Tech_display(Nans_Hatchy)
+
+        #Update stocks now that techs are hired~
+        Current_stocks() #update the stocks first
+
+        #Selling fishes!
+        Deplete_stocks()
+        Payments()
+        #put in a if/else checkpoint, if currently in the negatives, bankrupt! bad ending
+
+        #Update stocks!
+        Depreciate()
+        Warehouse_left()
+
+        print('Its restocking time! Here are your choices:')
+        Slippery.display()
+        Scaly.display()
+        restocker()
+    
+        quarters -= 1
+
+Quarter()
+
+
+        
