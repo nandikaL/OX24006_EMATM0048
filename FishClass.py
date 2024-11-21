@@ -13,4 +13,4 @@ class Fish:
         print(f"{self.species}: Fertilizer Use:{self.fertilizer}ml \nFeed use: {self.feed}kg \nSalt Use:{self.salt}kg \nMaintainence Time: {self.maint_time}")
 
     def Price(self):
-        print(f"{self.species}: Price:${self.price}")
+        print(f"{self.species}: Selling Price:${self.price}, Demand: ${self.demand}")

@@ -4,6 +4,11 @@ Repository for SPDA Summative Submisson
 
 Questions: 
 
-the () inside classes 
-using defs with each other 
-the lists being inside and outside (so if i wanna display things, then how, will the display function update?)
+changes to be made:
+refine units and rounding up/down of values
+smth wrong with the lists 
+check ui, spacing etc
+
+HELP!!
+
+1. in payments: I hard coded the 6000 payment for tech bc it wont work, cant figure out why again. If warehouse works so should this?

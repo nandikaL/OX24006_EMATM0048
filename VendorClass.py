@@ -6,4 +6,4 @@ class Vendor:
         self.salt_cost = salt_cost
     
     def display(self):
-        print(f"{self.name}: Fertilizer Cost:£{self.fertilizer_cost}/litre \nFeed Cost:£{self.feed_cost}/g \nSalt Cost{self.salt_cost}/g")
+        print(f"{self.name}: Fertilizer Cost:£{self.fertilizer_cost}/litre \nFeed Cost:£{self.feed_cost}/kg \nSalt Cost{self.salt_cost}/kg")
