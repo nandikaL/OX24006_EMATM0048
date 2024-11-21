@@ -28,14 +28,13 @@ class Hatchery:
             self.day_week = 7
             self.total_pay = self.weeks_pay * self.weeks_total
             self.labourdays = self.weeks_total * self.day_week
-        
-
+    
     def Tech_display(self):
         for tech in self.current_techs:
             print(f'Hired:{tech.name},They will work {tech.labourdays} this quarter. Pay:£{tech.total_pay}')
     
     def Tech_names(self):
-        if self.current_techs == []:
+        if not self.current_techs:
             print('No Techincians Hired Yet')
         else:
             for tech in self.current_techs:
@@ -81,7 +80,7 @@ class Hatchery:
                     print('Please enter the name of the tech you want to hire:')
                     print('If more than one please enter one name at a time.')
                     new_tech = input().strip().lower()
-                    if new_tech in self.current_techs:
+                    if any(tech.name == new_tech for tech in self.current_techs):
                         print('We already hired them')
                     else:
                         num -= 1
@@ -95,9 +94,14 @@ class Hatchery:
                     print('Please enter the name of the tech you want to fire:')
                     print('If more than one please enter one name at a time.')
                     fire_tech = input().strip().lower()
-                    if fire_tech in self.current_techs:
-                        print("{fire_tech} Fired!")
-                        self.current_techs.remove(fire_tech)
+                    tech_to_remove = None
+                    for tech in self.current_techs:
+                        if tech.name == fire_tech:
+                            tech_to_remove = tech
+                            break
+                    if tech_to_remove:
+                        self.current_techs.remove(tech_to_remove)
+                        print(f"{fire_tech} Fired!")
                         num += 1
                     else:
                         print('We never hired this stranger')
