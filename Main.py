@@ -78,6 +78,7 @@ def Deplete_stocks():
 
         #determine value of each fish being bought each cycle   
         #Display fish demands
+        print("-" * 60)
         user_demand = input(f"How many {species['species']} are you selling this quarter? \nDon't enter anything for default demand of {species['demand']}").strip()
         if user_demand == '':
             demand = species['demand']
@@ -137,6 +138,7 @@ def Deplete_stocks():
         current_stock_dict['maint_time'] = (new_maint_value)
 
         ##add money
+        print("-" * 60)
         fish_rev = species['price'] * demand 
         add_rev = current_stock_dict['cash']+fish_rev
         current_stock_dict['cash'] = add_rev
@@ -155,6 +157,7 @@ def Deplete_stocks():
 
 
 def Payments():
+    print("-" * 60)
     standard = Nans_Hatchy.quarterly_payment 
     tech_payments = len(Nans_Hatchy.current_techs)*6000 ###find way to put in nans_hatchy #500 mulitpled by 9 weeks
     
@@ -167,7 +170,9 @@ def Payments():
     print(f"Quarterly warehouse fees: £{standard}\nTotal Technician Salary: £{tech_payments}\nTotal Warehouse Costs: £{total_warehouse}")
     
     current_stock_dict['cash'] -= total_payments
+    print("Updated Stocks after Payments")
     display_stocks()
+    make_pretty(f"Cash Balance:£{current_stock_dict['cash']}")
     
 
 #Now restock your supples : 
@@ -203,6 +208,7 @@ def Warehouse_left():
         main_warehouse.salt_amount = current_stock_dict['salt']
         main_warehouse.salt_amount = 0
     
+    print("-" * 60)
     print("Your leftover supplies have depreciated! Here is what you have left now:")
     print(f"Fertilizer left in Main Warehouse: {main_warehouse.fert_amount}")
     print(f"Fertilizer left in Auxillary Warehouse: {aux_warehouse.fert_amount}")
@@ -267,7 +273,7 @@ def restocker():
     current_stock_dict['cash'] = current_stock_dict['cash'] - restock_price
     #add supplies into restock also: 
     #manually assign that its back at max? #better to assign the actual value restocked?? 
-    display_stocks() #remove
+    make_pretty(f"Cash Balance:£{current_stock_dict['cash']}") #remove
 
 #Quarter Loopy
 def Quarter():
@@ -297,31 +303,37 @@ def Quarter():
         #Update stocks now that techs are hired~
         Current_stocks() #update the stocks first
         print("Your resources for the year:")
-        display_stocks() #delete
+        display_stocks()
 
         #Selling fishes!
-        Deplete_stocks()
+        make_pretty("Time to Sell Fish!!")
+        Deplete_stocks() #selling fish
         Payments()
         #put in a if/else checkpoint, if currently in the negatives, bankrupt! bad ending
         
         if current_stock_dict['cash'] <0:
-            print("Oh no! You could not pay your Technicians! They unionized and filed a lawsuit, you went bankrupt and the hatchery closed.")
+            print("Oh no! You could not pay your Technicians! \nThey unionized and filed a lawsuit. \nYou went bankrupt and the hatchery closed.")
+            make_pretty("Bad Ending. Game Over")
             break
+        
         #Update stocks!
         Depreciate()
         Warehouse_left()
 
-        print('Its restocking time! Here are your choices:')
+        make_pretty("Rrepare for the next quarter. Restock!")
+        print('These two vendors work with you:')
         Slippery.display()
         Scaly.display()
         restocker()
 
         if current_stock_dict['cash'] < 0:
-            print("Oh no! You couldnt pay the vendors! They boycotted you so your fishes died and the hatchery had to close down.")
+            print("Oh no! You couldnt pay the vendors! \nThey boycotted you so your fishes died. \nThe hatchery had to close down.")
+            make_pretty("Bad Ending. Game Over")
             break
         print(f'Congrats! The hatchery survived the Quarter')
         if quarters == 1:
             print("Good job! Your hatchery survived. Go forth and raise fishes")
+            make_pretty("Good Ending. Game Over.")
         quarters -= 1 #reduce number of loops left 
         current_q += 1 #add number for current quarter
 
