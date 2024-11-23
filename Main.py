@@ -167,12 +167,13 @@ def Payments():
     
     total_warehouse = warehouse_fert + warehouse_feed + warehouse_salt
     total_payments = standard + tech_payments + total_warehouse
-    print(f"Quarterly warehouse fees: £{standard}\nTotal Technician Salary: £{tech_payments}\nTotal Warehouse Costs: £{total_warehouse}")
+    print(f"Quarterly warehouse fees: £{standard}\nTotal Technician Salary: £{tech_payments}\nTotal Warehouse Costs: £{total_warehouse:.2f}")
     
     current_stock_dict['cash'] -= total_payments
     print("Updated Stocks after Payments")
     display_stocks()
-    make_pretty(f"Cash Balance:£{current_stock_dict['cash']}")
+    cash_balance = current_stock_dict['cash']
+    make_pretty(f"Cash Balance: £{cash_balance:.2f}")
     
 
 #Now restock your supples : 
@@ -210,12 +211,12 @@ def Warehouse_left():
     
     print("-" * 60)
     print("Your leftover supplies have depreciated! Here is what you have left now:")
-    print(f"Fertilizer left in Main Warehouse: {main_warehouse.fert_amount}")
-    print(f"Fertilizer left in Auxillary Warehouse: {aux_warehouse.fert_amount}")
-    print(f"Feed left in Main Warehouse: {main_warehouse.feed_amount}")
-    print(f"Feed left in Auxillary Warehouse: {aux_warehouse.feed_amount}")
-    print(f"Salt left in Main Warehouse: {main_warehouse.salt_amount}")
-    print(f"Salt left in Auxillary Warehouse: {aux_warehouse.salt_amount}")
+    print(f"Fertilizer left in Main Warehouse: {main_warehouse.fert_amount:.2f}")
+    print(f"Fertilizer left in Auxillary Warehouse: {aux_warehouse.fert_amount:.2f}")
+    print(f"Feed left in Main Warehouse: {main_warehouse.feed_amount:.2f}")
+    print(f"Feed left in Auxillary Warehouse: {aux_warehouse.feed_amount:.2f}")
+    print(f"Salt left in Main Warehouse: {main_warehouse.salt_amount:.2f}")
+    print(f"Salt left in Auxillary Warehouse: {aux_warehouse.salt_amount:.2f}")
 
 
 #Choose which vendor to buy from
@@ -229,11 +230,11 @@ def restocker():
         restock_fertilizer = input(f'Where would you like to purchase your Fertilizer from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}') #since the names too long
         if restock_fertilizer == '1':
             fert_price = fert_restock_amount * Slippery.fertilizer_cost
-            print(f"Paid {fert_price} to {Slippery.name}")
+            print(f"Paid £{fert_price:.2f} to {Slippery.name}")
             break
         elif restock_fertilizer == '2':
             fert_price = fert_restock_amount * Scaly.fertilizer_cost
-            print(f"Paid {fert_price} to {Scaly.name}")
+            print(f"Paid £{fert_price:.2f} to {Scaly.name}")
             break
         else: 
             print('Type a number I understand please') #now how to go back?
@@ -242,11 +243,11 @@ def restocker():
         restock_feed = input(f'Where would you like to purchase your Feed from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}')
         if restock_feed == '1':
             feed_price = feed_restock_amount * Slippery.feed_cost 
-            print(f"Paid {feed_price} to {Slippery.name}")
+            print(f"Paid £{feed_price:.2f} to {Slippery.name}")
             break
         elif restock_feed == '2':
             feed_price = feed_restock_amount * Scaly.feed_cost 
-            print(f"Paid {feed_price} to {Scaly.name}")
+            print(f"Paid £{feed_price:.2f} to {Scaly.name}")
             break
         else: 
             print('Type a number I understand please') #now how to go back?
@@ -255,11 +256,11 @@ def restocker():
         restock_salt = input(f'Where would you like to purchase your Salt from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}')
         if restock_salt == '1':
             salt_price = (salt_restock_amount) * Slippery.salt_cost 
-            print(f"Paid {salt_price} to {Slippery.name}")
+            print(f"Paid £{salt_price:.2f} to {Slippery.name}")
             break
         elif restock_salt == '2':
             salt_price = (salt_restock_amount) * Scaly.salt_cost
-            print(f"Paid {salt_price} to {Scaly.name}")
+            print(f"Paid £{salt_price:.2f} to {Scaly.name}")
             break
         else: 
             print('Type a number I understand please') 
@@ -270,10 +271,11 @@ def restocker():
     main_warehouse.salt_amount = main_warehouse.salt_capacity
         
     restock_price = fert_price+feed_price+salt_price
-    current_stock_dict['cash'] = current_stock_dict['cash'] - restock_price
+    current_stock_dict['cash'] -= restock_price
     #add supplies into restock also: 
     #manually assign that its back at max? #better to assign the actual value restocked?? 
-    make_pretty(f"Cash Balance:£{current_stock_dict['cash']}") #remove
+    cash_balance = current_stock_dict['cash']
+    make_pretty(f"Cash Balance: £{cash_balance:.2f}")
 
 #Quarter Loopy
 def Quarter():
