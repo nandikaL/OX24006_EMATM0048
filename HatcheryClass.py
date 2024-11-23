@@ -25,9 +25,9 @@ class Hatchery:
             self.weeks_work = 9 
             self.weeks_pay = 500
             self.weeks_total = 12 #can adjsut weeks theyre paid for then
-            self.day_week = 7
+            self.day_week = 5
             self.total_pay = self.weeks_pay * self.weeks_total
-            self.labourdays = self.weeks_total * self.day_week
+            self.labourdays = self.weeks_work * self.day_week
     
     def Tech_display(self):
         for tech in self.current_techs:
