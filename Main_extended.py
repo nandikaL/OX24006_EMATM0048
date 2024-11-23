@@ -3,7 +3,7 @@ from FishClass import Fish
 from WarehouseClass import Warehouse
 #from TechicianClass import Technician
 from VendorClass import Vendor
-from HatcheryClass import Hatchery
+from Hatchery_extend import Hatchery
 #from QuarterClass import Quarter
 
 #Instances 
@@ -44,9 +44,11 @@ def make_pretty(title):
     print(f"{'=' * 60}")
 
 #Creating a dictonary of the things that flow in the hatchery
-current_stock_dict = {'maint_time':0, 'fert':0, 'feed':0, 'salt':0, 'cash':Nans_Hatchy.cash} #inside a class? 
+current_stock_dict = {'maint_time':Nans_Hatchy.current_techs, 'fert':0, 'feed':0, 'salt':0, 'cash':Nans_Hatchy.cash} #inside a class? 
 def display_stocks():
-    print(f"Maintenance Time Available: {current_stock_dict['maint_time']} days")
+    for tech in current_stock_dict['maint_time']:
+        print(f"Technician Name: {tech.name}, Labour Days: {tech.labourdays}")
+    #print(f"Maintenance Time Available: {current_stock_dict['maint_time']} days")
     print(f"Fertilizer Available: {current_stock_dict['fert']} liters")
     print(f"Feed Available: {current_stock_dict['feed']} kg")
     print(f"Salt Available: {current_stock_dict['salt']} kg")
@@ -61,7 +63,8 @@ def display_stocks():
 #Function to update stocks in warehouse ? 
 def Current_stocks():
     #Append to dictionary number of labour days available
-    current_stock_dict['maint_time']=len(Nans_Hatchy.current_techs)*45 #45 days of work per person
+    #current_stock_dict['maint_time']=len(Nans_Hatchy.current_techs)*45 #45 days of work per person #IDK
+    current_stock_dict['maint_time']=Nans_Hatchy.current_techs
 
     #Adding sum of items in the warehouse 
     current_stock_dict['fert'] = main_warehouse.fert_amount + aux_warehouse.fert_amount #allows for not full replenishing

@@ -20,7 +20,7 @@ Fishies = [fin,snapper,brim,cod,flounder,bass]
 
 #loop to convert all the ml to liters, for convience later
 for fish in Fishies:
-    fish['fertilizer'] = fish['fertilizer']/1000
+    fish['fertilizer'] = fish['fertilizer']/1000                                                                                            
 
 #units: liters, kg, kg
 main_warehouse = Warehouse('Main',20,20,400,400,200,200)
