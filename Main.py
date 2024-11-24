@@ -47,7 +47,7 @@ def make_pretty(title):
 current_stock_dict = {'maint_time':Nans_Hatchy.current_techs, 'fert':0, 'feed':0, 'salt':0, 'cash':Nans_Hatchy.cash} #inside a class? 
 def display_stocks():
     for tech in current_stock_dict['maint_time']:
-        print(f"Technician Name: {tech.name}, Labour Days: {tech.labourdays}")
+        print(f"Technician Name: {tech.name}, Labour Days: {tech.labourtime}")
     #print(f"Maintenance Time Available: {current_stock_dict['maint_time']} days")
     print(f"Fertilizer Available: {current_stock_dict['fert']} liters")
     print(f"Feed Available: {current_stock_dict['feed']} kg")
@@ -64,7 +64,8 @@ def display_stocks():
 def Current_stocks():
     #Append to dictionary number of labour days available
     #current_stock_dict['maint_time']=len(Nans_Hatchy.current_techs)*45 #45 days of work per person #IDK
-    current_stock_dict['maint_time']=Nans_Hatchy.current_techs
+    for tech in current_stock_dict['maint_time']:
+        tech.labourtime = tech.labourdays #reset it
 
     #Adding sum of items in the warehouse 
     current_stock_dict['fert'] = main_warehouse.fert_amount + aux_warehouse.fert_amount #allows for not full replenishing
@@ -125,37 +126,37 @@ def Deplete_stocks():
             print(f"The {species['species']} died from reverse osmosis! \n{species['species']} need {salt_need}kg of salt, only {current_stock_dict['salt']}kg available.")
             continue
         #####Maintenence 
-        time_start = {tech: tech.labourdays for tech in Nans_Hatchy.current_techs}
-        time_left = species['maint_time']
+        time_start = {tech: tech.labourtime for tech in Nans_Hatchy.current_techs}
+        time_left = maint_need
         for tech in Nans_Hatchy.current_techs:
             #if the instance in tech.specialty = fish species
             if tech.specialty == species['species']: #need to assign value for each fish in this case 
                 #find new maintainence time
                 special_time = species['maint_time']*(2/3)
                 special_time = round(time_left*(2/3))
-                if tech.labourdays >= special_time:
-                    tech.labourdays -= special_time
+                if tech.labourtime >= special_time:
+                    tech.labourtime -= special_time
                     time_left = 0
                     break
                 else: 
-                    special_time -= tech.labourdays
-                    tech.labourdays = 0
+                    special_time -= tech.labourtime
+                    tech.labourtime = 0
             
             if time_left > 0:
                 for tech in Nans_Hatchy.current_techs:
-                    if tech.labourdays > 0:
-                        if tech.labourdays >= remaining_time:
-                            tech.labourdays -= remaining_time
-                            remaining_time = 0  
+                    if tech.labourtime > 0:
+                        if tech.labourtime >= time_left:
+                            tech.labourtime -= time_left
+                            time_left = 0  
                             break
                         else:
-                            remaining_time -= tech.labourdays
-                            tech.labourdays = 0
+                            time_left -= tech.labourtime
+                            tech.labourtime = 0
             
             if time_left > 0:
-                print(f"Your staff are overworked! {species['species']} need {maint_need} days of maintainence, only {current_stock_dict['maint_time']} available.")
+                print(f"Your staff are overworked! {species['species']} need {maint_need} days of maintainence. There isnt enough help!")
                 for tech, starting_days in time_start.items():
-                    tech.labourdays = starting_days
+                    tech.labourtime = starting_days
                     continue
 
 
@@ -165,8 +166,8 @@ def Deplete_stocks():
         current_stock_dict['feed'] = (new_feed_value)
         new_salt_value = current_stock_dict['salt'] - salt_need
         current_stock_dict['salt'] = (new_salt_value)
-        new_maint_value = current_stock_dict['maint_time']-maint_need
-        current_stock_dict['maint_time'] = (new_maint_value)
+        # new_maint_value = current_stock_dict['maint_time']-maint_need
+        # current_stock_dict['maint_time'] = (new_maint_value)
 
         ##add money
         print("-" * 60)

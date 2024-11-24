@@ -5,8 +5,7 @@ Repository for SPDA Summative Submisson
 Questions: 
 
 changes to be made:
-refine units and rounding up/down of values
-smth wrong with the lists 
+new tech obj 
 check ui, spacing etc
 
 HELP!!
