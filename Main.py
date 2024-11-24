@@ -1,13 +1,14 @@
-#Import
+#Import all the classes:
 from FishClass import Fish
 from WarehouseClass import Warehouse
-#from TechicianClass import Technician
 from VendorClass import Vendor
 from HatcheryClass import Hatchery
-#from QuarterClass import Quarter
 
-#Instances 
+#Start with Initiating the Instances 
 
+#Initiating each fish by following the Fish Class Template:
+#fertilizer, feed, salt, maintainence days, demand, price
+#.__dict__ to changed into a dictionary for ease of looping through
 #units are ml,kg,kg,days, not applicable to demand, pounds
 fin = Fish('Clef Fins',100.0,12,2,2.0,25,250).__dict__ 
 snapper = Fish('Timpani Snapper', 50.0, 9, 2, 1.0, 10, 350).__dict__
@@ -16,60 +17,82 @@ cod = Fish('Plagal Cod', 100.0, 10, 2, 2.0, 20, 400).__dict__
 flounder = Fish('Fugue Flounder', 200.0, 12, 2, 2.5, 30, 550).__dict__
 bass = Fish('Modal Bass', 300.0, 12, 6, 3.0, 50, 500).__dict__
 
+#create list of fish dictionaries with each fish type
 Fishies = [fin,snapper,brim,cod,flounder,bass]
 
-#loop to convert all the ml to liters, for convience later
+#For loop to convert all the ml to liters, for convience later
 for fish in Fishies:
+    #for fertilizer in fish list, divide by 1000 to go from ml to l
     fish['fertilizer'] = fish['fertilizer']/1000
 
+#Instanciate the two warehouses
+#Fert, feed, salt, amt, capacity
 #units: liters, kg, kg
 main_warehouse = Warehouse('Main',20,20,400,400,200,200)
 aux_warehouse = Warehouse('Aux',10,10,200,200,100,100)
 
-# print(Main_Warehouse.__dict__)
-# print(Aux_Warehouse.__dict__)
-
+#Istanciate the two vendors
+#Fert, Feed, Salt
 #units: pound per liter, pound per kg, pound per kg
 Slippery = Vendor('Slippery Lakes',0.30,0.10,0.05)
 Scaly = Vendor('Scaly_Wholesaler',0.20,0.40,0.25)
 
-# print(Slippery.__dict__)
-# print(Scaly.__dict__)
-
+#Insanciate Hatchery, 'Nans' Hatchery
 Nans_Hatchy = Hatchery('supplies', 10000)
 
+#Function: Make Pretty 
 def make_pretty(title):
+    """ Function to make headers and titles look nice in a box """
     print(f"\n{'=' * 60}")
     print(f"{title.center(60)}")
     print(f"{'=' * 60}")
 
-#Creating a dictonary of the things that flow in the hatchery
+#Create a dictonary of the things that flow within the hatchery
+#Key: maint_time for maintainence time of the techniciians, Value: maint_time from the hatchery class instance
+#Key: fertilizer, feed, salt, value yet added later
+#Key: Cash for cash in hatchery, value: value from hatchery class instance
 current_stock_dict = {'maint_time':Nans_Hatchy.current_techs, 'fert':0, 'feed':0, 'salt':0, 'cash':Nans_Hatchy.cash} #inside a class? 
+
+#Function: Displaying the stocks in the Hatchery right now
 def display_stocks():
+    """ 
+    Nicely displays the inventory in current_stock_dict
+    Loop throught the current stock dictionary to get each technician's name and labour time left
+    Then displays the fert, feed, salt and cash in the dictionary
+    """
+    #for loop for each tehcnician in the hatchery.current_techs instances
     for tech in current_stock_dict['maint_time']:
+        #print out the technician name and labour time left
         print(f"Technician Name: {tech.name}, Labour Days: {tech.labourtime}")
-    #print(f"Maintenance Time Available: {current_stock_dict['maint_time']} days")
-    print(f"Fertilizer Available: {current_stock_dict['fert']} liters")
-    print(f"Feed Available: {current_stock_dict['feed']} kg")
-    print(f"Salt Available: {current_stock_dict['salt']} kg")
-    print(f"Cash Balance: £{current_stock_dict['cash']}")            
+    #print fertilizer amount, liters, rounded to 2dp
+    print(f"Fertilizer Available: {current_stock_dict['fert']:.2f} liters")
+    #print feed amount, kg, rounded to 2dp
+    print(f"Feed Available: {current_stock_dict['feed']:.2f} kg")
+    #print salt amount, kg, rounded to 2dp
+    print(f"Salt Available: {current_stock_dict['salt']:.2f} kg")
+    #print cash amound, pounds, rounded to 2 dp
+    print(f"Cash Balance: £{current_stock_dict['cash']:.2f}")            
 
-#Import in Hatchery (hatchery class has everything) 
-
-#How many fish sold # make function for changing demand??? 
-#standardized amount 
-#deplete_stocks(fishy=Fish.self) #how do i do this???
-
-#Function to update stocks in warehouse ? 
+#Function to update stocks in warehouse
 def Current_stocks():
+    """
+    Updates the current amount of stocks in the dictionary
+    Loops through technicains in the list and adds the starting number of labour days
+    Then adds the values of what is inside the main and auxillary warehohouse for the other items
+    """
     #Append to dictionary number of labour days available
-    #current_stock_dict['maint_time']=len(Nans_Hatchy.current_techs)*45 #45 days of work per person #IDK
-    for tech in current_stock_dict['maint_time']:
-        tech.labourtime = tech.labourdays #reset it
+    #loop through each tech
+    for tech in current_stock_dict['maint_time']: 
+        #assign the value of the  labour days to current available time
+        tech.labourtime = tech.labourdays #this way to reset the labour time each loop(quarter)
 
     #Adding sum of items in the warehouse 
+    #Add via warehouse class for main and aux, allow to add option for not replenishing fully 
+    #Add current amount in main and aux warehosue for fertilizer
     current_stock_dict['fert'] = main_warehouse.fert_amount + aux_warehouse.fert_amount #allows for not full replenishing
+    #Add current amount in main and aux warehosue for feed
     current_stock_dict['feed'] = main_warehouse.feed_amount + aux_warehouse.feed_amount
+    #Add current amount in main and aux warehosue for salt
     current_stock_dict['salt'] = main_warehouse.salt_amount + aux_warehouse.salt_amount
 
     print()
