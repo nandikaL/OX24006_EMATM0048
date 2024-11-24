@@ -1,5 +1,19 @@
 # OX24006_EMATM0048
-Repository for SPDA Summative Submisson 
+## GitHub Repository for SPDA Summative Submisson - Part 1 
+
+## [Project Title] Nan's Hatchery
+#### [Project Discription] Nan's hatchery is a fishery simulator game
+## [Table of Contents]
+## [How to Install and Run the Project]
+### Runing the project
+### Design Process 
+
+Design Considerations
+
+### [How to Use the Project]
+## Example 
+
+
 
 
 Questions: 
