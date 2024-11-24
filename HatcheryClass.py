@@ -20,14 +20,16 @@ class Hatchery:
         # total_pay = weeks_pay * weeks_total
         # labourdays = weeks_total * day_week
 
-        def __init__(self,name):
+        def __init__(self,name,specialty,avail_time):
             self.name = name
+            self.specialty = specialty #specialty
+            self.avail_time = avail_time #avail_time
             self.weeks_work = 9 
             self.weeks_pay = 500
             self.weeks_total = 12 #can adjsut weeks theyre paid for then
             self.day_week = 5
             self.total_pay = self.weeks_pay * self.weeks_total
-            self.labourdays = self.weeks_work * self.day_week
+            self.labourdays = self.weeks_total * self.day_week
     
     def Tech_display(self):
         for tech in self.current_techs:
@@ -83,10 +85,54 @@ class Hatchery:
                     if any(tech.name == new_tech for tech in self.current_techs):
                         print('We already hired them')
                     else:
-                        num -= 1
-                        print(f"{new_tech} Hired!")
-                        new_tech = self.Technician(new_tech)
-                        self.current_techs.append(new_tech)
+                        print("Does this Technician have a specialization?")
+                        print("[0] for None \n[1] for Clef Fins \n[2] for Timpani Snapper \n[3] for Andalusian Brim \n[4] for Plagal Cod \n[5] for Fugue Flounder \n[6] for Modal Bass")
+                        print("A specialized tech can maintain their fish at 2/3 the time ")
+                        while True:
+                            try: 
+                                tech_spec = int(input().strip())
+                                if tech_spec == 0:
+                                    print('No specialization')
+                                    print(f"{new_tech} Hired!")
+                                    new_tech_cl = self.Technician(new_tech,tech_spec=0) #9x5 days
+                                    self.current_techs.append(new_tech_cl)
+                                    break
+                                elif tech_spec == 1:
+                                    print(f"{new_tech} Hired!")
+                                    new_tech_cl = self.Technician(new_tech,tech_spec='Clef Fins') #45?
+                                    self.current_techs.append(new_tech_cl)
+                                    break
+                                elif tech_spec == 2: 
+                                    print(f"{new_tech} Hired!")
+                                    new_tech_cl = self.Technician(new_tech,tech_spec='Timpani Snapper') #45?
+                                    self.current_techs.append(new_tech_cl)
+                                    break
+                                elif tech_spec == 3:
+                                    print(f"{new_tech} Hired!")
+                                    new_tech_cl = self.Technician(new_tech,tech_spec='Andalusian Brim') #45?
+                                    self.current_techs.append(new_tech_cl)
+                                    break
+                                elif tech_spec == 4:
+                                    print(f"{new_tech} Hired!")
+                                    new_tech_cl = self.Technician(new_tech,tech_spec='Plagal Cod') #45?
+                                    self.current_techs.append(new_tech_cl)
+                                    break
+                                elif tech_spec == 5:
+                                    print(f"{new_tech} Hired!")
+                                    new_tech_cl = self.Technician(new_tech,tech_spec='Fugue Flounder') #45?
+                                    self.current_techs.append(new_tech_cl)
+                                    break
+                                elif tech_spec == 6:
+                                    print(f"{new_tech} Hired!")
+                                    new_tech_cl = self.Technician(new_tech,tech_spec='Modal Bass') #45?
+                                    self.current_techs.append(new_tech_cl)
+                                    break
+                                else:
+                                    print('Please enter a valid number 0-6')
+                            except ValueError:
+                                print('Please enter a valid number')
+                    num -= 1
+            
                         
             elif num < 0:
                 

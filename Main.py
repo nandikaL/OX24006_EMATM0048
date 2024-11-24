@@ -20,7 +20,7 @@ Fishies = [fin,snapper,brim,cod,flounder,bass]
 
 #loop to convert all the ml to liters, for convience later
 for fish in Fishies:
-    fish['fertilizer'] = fish['fertilizer']/1000                                                                                            
+    fish['fertilizer'] = fish['fertilizer']/1000
 
 #units: liters, kg, kg
 main_warehouse = Warehouse('Main',20,20,400,400,200,200)
@@ -44,9 +44,11 @@ def make_pretty(title):
     print(f"{'=' * 60}")
 
 #Creating a dictonary of the things that flow in the hatchery
-current_stock_dict = {'maint_time':0, 'fert':0, 'feed':0, 'salt':0, 'cash':Nans_Hatchy.cash} #inside a class? 
+current_stock_dict = {'maint_time':Nans_Hatchy.current_techs, 'fert':0, 'feed':0, 'salt':0, 'cash':Nans_Hatchy.cash} #inside a class? 
 def display_stocks():
-    print(f"Maintenance Time Available: {current_stock_dict['maint_time']} days")
+    for tech in current_stock_dict['maint_time']:
+        print(f"Technician Name: {tech.name}, Labour Days: {tech.labourdays}")
+    #print(f"Maintenance Time Available: {current_stock_dict['maint_time']} days")
     print(f"Fertilizer Available: {current_stock_dict['fert']} liters")
     print(f"Feed Available: {current_stock_dict['feed']} kg")
     print(f"Salt Available: {current_stock_dict['salt']} kg")
@@ -61,7 +63,8 @@ def display_stocks():
 #Function to update stocks in warehouse ? 
 def Current_stocks():
     #Append to dictionary number of labour days available
-    current_stock_dict['maint_time']=len(Nans_Hatchy.current_techs)*45 #45 days of work per person
+    #current_stock_dict['maint_time']=len(Nans_Hatchy.current_techs)*45 #45 days of work per person #IDK
+    current_stock_dict['maint_time']=Nans_Hatchy.current_techs
 
     #Adding sum of items in the warehouse 
     current_stock_dict['fert'] = main_warehouse.fert_amount + aux_warehouse.fert_amount #allows for not full replenishing
@@ -122,11 +125,39 @@ def Deplete_stocks():
             print(f"The {species['species']} died from reverse osmosis! \n{species['species']} need {salt_need}kg of salt, only {current_stock_dict['salt']}kg available.")
             continue
         #####Maintenence 
-        if current_stock_dict['maint_time']>=maint_need:
-            print(f"{maint_need} days of work taken")
-        else:
-            print(f"Your staff are overworked! {species['species']} need {maint_need} days of maintainence, only {current_stock_dict['maint_time']} available.")
-            continue
+        time_start = {tech: tech.labourdays for tech in Nans_Hatchy.current_techs}
+        time_left = species['maint_time']
+        for tech in Nans_Hatchy.current_techs:
+            #if the instance in tech.specialty = fish species
+            if tech.specialty == species['species']: #need to assign value for each fish in this case 
+                #find new maintainence time
+                special_time = species['maint_time']*(2/3)
+                special_time = round(time_left*(2/3))
+                if tech.labourdays >= special_time:
+                    tech.labourdays -= special_time
+                    time_left = 0
+                    break
+                else: 
+                    special_time -= tech.labourdays
+                    tech.labourdays = 0
+            
+            if time_left > 0:
+                for tech in Nans_Hatchy.current_techs:
+                    if tech.labourdays > 0:
+                        if tech.labourdays >= remaining_time:
+                            tech.labourdays -= remaining_time
+                            remaining_time = 0  
+                            break
+                        else:
+                            remaining_time -= tech.labourdays
+                            tech.labourdays = 0
+            
+            if time_left > 0:
+                print(f"Your staff are overworked! {species['species']} need {maint_need} days of maintainence, only {current_stock_dict['maint_time']} available.")
+                for tech, starting_days in time_start.items():
+                    tech.labourdays = starting_days
+                    continue
+
 
         new_fert_value = current_stock_dict['fert'] - fert_need
         current_stock_dict['fert'] = (new_fert_value)
