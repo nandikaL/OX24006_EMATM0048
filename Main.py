@@ -203,9 +203,7 @@ def Deplete_stocks():
         for tech in Nans_Hatchy.current_techs:
             #Find if the tech has a specialty using tech.specialty = fish species
             if tech.specialty == species['species']: 
-                #New maintainence time, 2/3 of original
-                special_time = species['maint_time']*(2/3)
-                #Round it up, its in days
+                #New maintainence time, 2/3 of original, rounded
                 special_time = round(time_left*(2/3))
                 #Check if technician has enough labour time left
                 #If they have more than needed or just enough
