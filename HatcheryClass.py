@@ -1,4 +1,5 @@
 
+#Initiate the hatchery class
 class Hatchery:
     def __init__(self,supplies,cash):
         self.supplies = supplies
@@ -13,13 +14,6 @@ class Hatchery:
 
     
     class Technician:
-        # weeks_work = 9 
-        # weeks_pay = 500
-        # weeks_total = 12 #can adjsut weeks theyre paid for then
-        # day_week = 7
-        # total_pay = weeks_pay * weeks_total
-        # labourdays = weeks_total * day_week
-
         def __init__(self,name,specialty):
             self.name = name
             self.specialty = specialty #specialty
