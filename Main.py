@@ -298,7 +298,7 @@ def Payments():
     #Quarterly payment, taken from Hatchery
     standard = Nans_Hatchy.quarterly_payment 
     #Payment for technicians, number * pay
-    tech_payments = len(Nans_Hatchy.current_techs)*6000 ###find way to put in nans_hatchy #500 mulitpled by 9 weeks
+    tech_payments = len(Nans_Hatchy.current_techs)*6000###find way to put in nans_hatchy #500 mulitpled by 9 weeks #[0]
     #Payments for fertilizer, feed, salt in inventory after quarter. Uses main_warehouse._ as both values are same.
     warehouse_fert = current_stock_dict['fert']*main_warehouse.costs.fertilizer_warehouse #Both values in liters
     warehouse_feed = (current_stock_dict['feed']*1000)*main_warehouse.costs.feed_warehouse #Cost is in grams, * by 1000 to convert 

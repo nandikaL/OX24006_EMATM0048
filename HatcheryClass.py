@@ -1,6 +1,7 @@
 
 #Initiate the hatchery class
 class Hatchery:
+    #define the items inside - just need this to be initialized to play
     def __init__(self,supplies,cash):
         self.supplies = supplies
         
@@ -12,8 +13,9 @@ class Hatchery:
 
         #self.tech_info = self.Technician()
 
-    
+    #within it, technician class
     class Technician:
+        #define the items inside the technician class
         def __init__(self,name,specialty):
             self.name = name
             self.specialty = specialty #specialty
@@ -25,6 +27,7 @@ class Hatchery:
             self.labourdays = self.weeks_work * self.day_week 
             self.labourtime = self.labourdays #ammendable time
     
+    #first function = displaying the technicians for when they are hired 
     def Tech_display(self):
         for tech in self.current_techs:
             print(f'Hired:{tech.name},They will work {tech.labourdays} days this quarter. Pay:£{tech.total_pay}')
@@ -88,37 +91,37 @@ class Hatchery:
                                 if tech_spec == 0:
                                     print('No specialization')
                                     print(f"{new_tech} Hired!")
-                                    new_tech_cl = self.Technician(new_tech,'0') #9x5 days
+                                    new_tech_cl = self.Technician(new_tech,'0') 
                                     self.current_techs.append(new_tech_cl)
                                     break
                                 elif tech_spec == 1:
                                     print(f"{new_tech} Hired!")
-                                    new_tech_cl = self.Technician(new_tech,'Clef Fins') #45?
+                                    new_tech_cl = self.Technician(new_tech,'Clef Fins') 
                                     self.current_techs.append(new_tech_cl)
                                     break
                                 elif tech_spec == 2: 
                                     print(f"{new_tech} Hired!")
-                                    new_tech_cl = self.Technician(new_tech,'Timpani Snapper') #45?
+                                    new_tech_cl = self.Technician(new_tech,'Timpani Snapper') 
                                     self.current_techs.append(new_tech_cl)
                                     break
                                 elif tech_spec == 3:
                                     print(f"{new_tech} Hired!")
-                                    new_tech_cl = self.Technician(new_tech,'Andalusian Brim') #45?
+                                    new_tech_cl = self.Technician(new_tech,'Andalusian Brim') 
                                     self.current_techs.append(new_tech_cl)
                                     break
                                 elif tech_spec == 4:
                                     print(f"{new_tech} Hired!")
-                                    new_tech_cl = self.Technician(new_tech,'Plagal Cod') #45?
+                                    new_tech_cl = self.Technician(new_tech,'Plagal Cod') 
                                     self.current_techs.append(new_tech_cl)
                                     break
                                 elif tech_spec == 5:
                                     print(f"{new_tech} Hired!")
-                                    new_tech_cl = self.Technician(new_tech,'Fugue Flounder') #45?
+                                    new_tech_cl = self.Technician(new_tech,'Fugue Flounder') 
                                     self.current_techs.append(new_tech_cl)
                                     break
                                 elif tech_spec == 6:
                                     print(f"{new_tech} Hired!")
-                                    new_tech_cl = self.Technician(new_tech,'Modal Bass') #45?
+                                    new_tech_cl = self.Technician(new_tech,'Modal Bass') 
                                     self.current_techs.append(new_tech_cl)
                                     break
                                 else:
