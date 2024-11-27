@@ -195,7 +195,7 @@ def Deplete_stocks():
             continue
         
         #Move on to calculating maintenence 
-        #Store the inital time each tech has, incase demand is not met
+        #Store the inital time each tech has, in case demand is not met
         time_start = {tech: tech.labourtime for tech in Nans_Hatchy.current_techs}
         #Assign new variable for the time left 
         time_left = maint_need #ensure the original time stays there
