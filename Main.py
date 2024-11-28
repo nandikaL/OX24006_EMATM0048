@@ -55,6 +55,7 @@ Scaly = Vendor('Scaly_Wholesaler',0.20,0.40,0.25)
 #Insanciate Hatchery, 'Nans' Hatchery
 Nans_Hatchy = Hatchery('supplies', 10000)
 
+#instanciate empty tech, only used to call info
 empty_tech = Hatchery.Technician('empty')
 
 ##DICTIONARY 
