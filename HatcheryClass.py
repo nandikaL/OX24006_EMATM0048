@@ -1,3 +1,4 @@
+"""OX24006, Nandika, This file contains the hatchery class", the technicans are handed here and moving information is stored here """
 
 #Initiate the hatchery class
 class Hatchery:

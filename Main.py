@@ -1,10 +1,13 @@
+"""OX24006, Nandika, This is the main file to be run, and Fish Tycoon can be played"""
+
+### STEP 1: Instanciate all classes 
 #Import all the classes:
 from FishClass import Fish
 from WarehouseClass import Warehouse
 from VendorClass import Vendor
 from HatcheryClass import Hatchery
 
-#Start with Initiating the Instances 
+## FISH
 
 #Initiating each fish by following the Fish Class Template:
 #fertilizer, feed, salt, maintainence days, demand, price
@@ -25,11 +28,15 @@ for fish in Fishies:
     #for fertilizer in fish list, divide by 1000 to go from ml to l
     fish['fertilizer'] = fish['fertilizer']/1000
 
+## WAREHOUSES
+
 #Instanciate the two warehouses
 #Fert, feed, salt, amt, capacity
 #units: liters, kg, kg
 main_warehouse = Warehouse('Main',20,20,400,400,200,200)
 aux_warehouse = Warehouse('Aux',10,10,200,200,100,100)
+
+##VENDORS
 
 #Istanciate the two vendors
 #Fert, Feed, Salt
@@ -37,8 +44,20 @@ aux_warehouse = Warehouse('Aux',10,10,200,200,100,100)
 Slippery = Vendor('Slippery Lakes',0.30,0.10,0.05)
 Scaly = Vendor('Scaly_Wholesaler',0.20,0.40,0.25)
 
+##HATCHERY
+
 #Insanciate Hatchery, 'Nans' Hatchery
 Nans_Hatchy = Hatchery('supplies', 10000)
+
+##DICTIONARY 
+
+#Create a dictonary of the things that flow within the hatchery
+#Key: maint_time for maintainence time of the techniciians, Value: maint_time from the hatchery class instance
+#Key: fertilizer, feed, salt, value yet added later
+#Key: Cash for cash in hatchery, value: value from hatchery class instance
+current_stock_dict = {'maint_time':Nans_Hatchy.current_techs, 'fert':0, 'feed':0, 'salt':0, 'cash':Nans_Hatchy.cash} #inside a class? 
+
+###STEP 2: Defining functions
 
 #Function: Make Pretty 
 def make_pretty(title):
@@ -46,12 +65,6 @@ def make_pretty(title):
     print(f"\n{'=' * 60}")
     print(f"{title.center(60)}")
     print(f"{'=' * 60}")
-
-#Create a dictonary of the things that flow within the hatchery
-#Key: maint_time for maintainence time of the techniciians, Value: maint_time from the hatchery class instance
-#Key: fertilizer, feed, salt, value yet added later
-#Key: Cash for cash in hatchery, value: value from hatchery class instance
-current_stock_dict = {'maint_time':Nans_Hatchy.current_techs, 'fert':0, 'feed':0, 'salt':0, 'cash':Nans_Hatchy.cash} #inside a class? 
 
 #Function: Displaying the stocks in the Hatchery right now
 def display_stocks():
@@ -290,7 +303,7 @@ def Deplete_stocks():
 #Function to pay for everything in the quarter
 def Payments():
     """
-    Calcuate standard feeds, Technician fees, Warehouse Cost for each item in the Warehouse
+    Calcuate standard fees, Technician fees, Warehouse Cost for each item in the Warehouse
     Calls all the items available and mulitplies by their costs
     """
     #Line for visual clarity
@@ -579,7 +592,7 @@ def Quarter():
         current_q += 1 
 
 
-##### FINALLY, THE ACTUAL PLAYTHROUGH:
+#####STEP3: FINALLY, THE ACTUAL PLAYTHROUGH:
 
 #Opening statement
 print("Welcome to Fish Tycoon, Please Try Not to Go Bankrupt.")

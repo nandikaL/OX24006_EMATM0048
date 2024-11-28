@@ -1,4 +1,4 @@
-"""OX24006, Nandika, This file contains the warehouse class"""
+"""OX24006, Nandika, This file contains the vendor class"""
 
 #Class - vendor
 class Vendor:

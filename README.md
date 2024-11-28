@@ -62,10 +62,45 @@ class `Vendor`
 It also contains a method to display the costs to show the user.
 
 `HatcheryClass.py`
-class `Hatchery`
+class `Hatchery` - this has self, supplies and cash
+Class will be initialized in `main.py` using:
+Hatchery(name of hatchery, supples, amount of starting cash)
 
-description of your code design, classes,
-methods, and other key details. 
+class `Technician` -  name, specialty and days of work, it is meant to be editable. However in `main.py`, the total pay has been written as a standard 6000. 
+
+Within this class there are two display methods
+- `Tech_display`  for displaying the technicians after being hired 
+- `Tech_names` for displaying the technicians before the choosing process 
+
+And there are two functions for the technician hiring process 
+- `Tech_Roster` : After describing the hiring process to the user, it asks for how many technicians to hire. 
+    - Features: Error handling for non integer values, checking that there is at least 1 and less than 5 techs 
+    - Extension: allows user to choose a specialty by fish.
+    - Note: user here is allowed to name their technicians anything, even numbers.
+- `Tech_Again` : simple if else to allow user to make changes to the technicians. This was done incase the user wanted to both hire and fire in the same cycle.
+
+These are the only two loops that are defined inside a class as will be instanciated by the users inputs. 
+
+`main.py`
+This is where eerythign else is occuring. First it imports all the other scripts.
+
+Step 1: Class Initialisation
+Fishes types instanciated. The fishes, after initialization is formatted as a list of dictionaries. Handling of the different units is also done here.  
+Warehouse instanciated. 
+Vendors instanciated. 
+Dictionary that contains the things that can change within the warehouse is also created, called `current_stock_dict`
+
+Step 2: Defining functions 
+1.  `make_pretty()` Simple function that keeps headers and titles in a nice box. Using this as the output and print statements can accumulate and confuse the user. 
+2. `display_stocks()` Nicely displays the inventory in current_stock_dict. For users referece
+3. `Current_stocks()` Updates the current amount of stocks in the dictionary 
+4. `Deplete_stocks()` Function that loops through the list of fish, meet demands and then deplete stocks accordingly. This function is part of the main selling process, and takes in the users inputs, calculate how much supplies are needed. The sales pass/fail based on the calculations.
+5. `Payments()` Calcuate standard fees, Technician fees, Warehouse Cost for each item left in the Warehouse. Note technician pay is written directly here as 6000. 
+6. `Depreciate()` Calculate depreication amount of each item in the warehouse
+7. `Warehouse_left()`  Function to determine how much of each item (Fert, Feed, Salt) in Main & Aux Warehouses. Because the values were not counted sepertely when looking at the warehouses during stocking/depletion, we take the logic here that auxillary is drained last. Calculations are made accordingly to this. Returns the amounts left in the warehouses.
+8. `restocker()` Allows user to select which warehosue they want to restock each item from. User is charged after all the decisions are made. Currently, there is only the option of fully restocking, despite having preparations for custom stocking. The warehouses are returned to their max capacity. 
+9. `Quarter()` this is the main function that orders all the occurances wihtin the quarter. Takes the value the user wants (number of quarters) and runs accordingly. There are two checkpoints for bankruptcy. First is after `Payments()` and the next is after `restocker()`. 
+
 
 ## How to Install and Run the Project
 There are 5 files for this project in total: 
@@ -75,34 +110,25 @@ There are 5 files for this project in total:
 4. VendorClass.py
 5. main.py
 
-Ensure all scripts are within the same folder. To run
+Ensure all scripts are within the same folder. 
 
+Run `main.py`
 
-### Runing the project
-### Design Process 
+### Design Process and Considerations
 
-Design Considerations
+The simulation was intended to be run similarly to a game, where there is a good and bad ending, with as many user friendly additions as possible - although it is admittedlty quite difficult to win the game. 
 
-### [How to Use the Project]
-## Example 
+Considerations for extended version was 
+1. Custom warehouse restocking 
+2. Having 'lives', which means taking a loan if the user went bankrupt
 
+## Github Repository:
+https://github.com/nandikaL/OX24006_EMATM0048.git
 
+## Main and Extension Packages 
+**Main** 
+Main package is the standard run of the simulator, with no technician specialty. 
+**Extended-Version
+The main difference between this and main is the technician specialties. This occurs in HatcheryClass and main.py
 
-
-Questions: 
-
-changes to be made:
-new tech obj 
-check ui, spacing etc
-
-HELP!!
-
-1. in payments: I hard coded the 6000 payment for tech bc it wont work, cant figure out why again. If warehouse works so should this?
-
-
-ideas for extension: 
-1. stock how much you want in the warehouse (but will this kill me? idk)
-2. choice of warehouse expansion after 4 quarters, just increase the the max
-3. technician:
-when select technician, ask if specialize 
 
