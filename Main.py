@@ -1,4 +1,8 @@
-#Import
+"""OX24006, Nandika, This is the main - main branch, file to be run, and Fish Tycoon can be played"""
+
+
+### STEP 1: Instanciate all classes 
+#Import all the classes:
 from FishClass import Fish
 from WarehouseClass import Warehouse
 #from TechicianClass import Technician
@@ -6,8 +10,11 @@ from VendorClass import Vendor
 from HatcheryClass import Hatchery
 #from QuarterClass import Quarter
 
-#Instances 
+## FISH
 
+#Initiating each fish by following the Fish Class Template:
+#fertilizer, feed, salt, maintainence days, demand, price
+#.__dict__ to changed into a dictionary for ease of looping through
 #units are ml,kg,kg,days, not applicable to demand, pounds
 fin = Fish('Clef Fins',100.0,12,2,2.0,25,250).__dict__ 
 snapper = Fish('Timpani Snapper', 50.0, 9, 2, 1.0, 10, 350).__dict__
@@ -16,56 +23,89 @@ cod = Fish('Plagal Cod', 100.0, 10, 2, 2.0, 20, 400).__dict__
 flounder = Fish('Fugue Flounder', 200.0, 12, 2, 2.5, 30, 550).__dict__
 bass = Fish('Modal Bass', 300.0, 12, 6, 3.0, 50, 500).__dict__
 
+#create list of fish dictionaries with each fish type
 Fishies = [fin,snapper,brim,cod,flounder,bass]
 
-#loop to convert all the ml to liters, for convience later
+#For loop to convert all the ml to liters, for convience later
 for fish in Fishies:
+    #for fertilizer in fish list, divide by 1000 to go from ml to l
     fish['fertilizer'] = fish['fertilizer']/1000                                                                                            
+
+## WAREHOUSES
+
+#Instanciate the two warehouses
+#Fert, feed, salt, amt, capacity
+#units: liters, kg, kg
 
 #units: liters, kg, kg
 main_warehouse = Warehouse('Main',20,20,400,400,200,200)
 aux_warehouse = Warehouse('Aux',10,10,200,200,100,100)
 
-# print(Main_Warehouse.__dict__)
-# print(Aux_Warehouse.__dict__)
 
+##VENDORS
+
+#Istanciate the two vendors
+#Fert, Feed, Salt
 #units: pound per liter, pound per kg, pound per kg
 Slippery = Vendor('Slippery Lakes',0.30,0.10,0.05)
 Scaly = Vendor('Scaly_Wholesaler',0.20,0.40,0.25)
 
-# print(Slippery.__dict__)
-# print(Scaly.__dict__)
+##HATCHERY
 
+#Insanciate Hatchery, 'Nans' Hatchery
 Nans_Hatchy = Hatchery('supplies', 10000)
 
+##DICTIONARY 
+
+#Create a dictonary of the things that flow within the hatchery
+#Key: maint_time for maintainence time of the techniciians, Value: maint_time from the hatchery class instance
+#Key: fertilizer, feed, salt, value yet added later
+#Key: Cash for cash in hatchery, value: value from hatchery class instance
+current_stock_dict = {'maint_time':Nans_Hatchy.current_techs, 'fert':0, 'feed':0, 'salt':0, 'cash':Nans_Hatchy.cash} #inside a class? 
+
+###STEP 2: Defining functions
+
+#Function: Make Pretty 
 def make_pretty(title):
+    """ Function to make headers and titles look nice in a box """
     print(f"\n{'=' * 60}")
     print(f"{title.center(60)}")
     print(f"{'=' * 60}")
 
-#Creating a dictonary of the things that flow in the hatchery
-current_stock_dict = {'maint_time':0, 'fert':0, 'feed':0, 'salt':0, 'cash':Nans_Hatchy.cash} #inside a class? 
+#Function: Displaying the stocks in the Hatchery right now
 def display_stocks():
+    """ 
+    Nicely displays the inventory in current_stock_dict
+    Loop throught the current stock dictionary to get each technician's name and labour time left
+    Then displays the fert, feed, salt and cash in the dictionary
+    """
+    #print total maintainence time
     print(f"Maintenance Time Available: {current_stock_dict['maint_time']} days")
-    print(f"Fertilizer Available: {current_stock_dict['fert']} liters")
-    print(f"Feed Available: {current_stock_dict['feed']} kg")
-    print(f"Salt Available: {current_stock_dict['salt']} kg")
-    print(f"Cash Balance: £{current_stock_dict['cash']}")            
-
-#Import in Hatchery (hatchery class has everything) 
-
-#How many fish sold # make function for changing demand??? 
-#standardized amount 
-#deplete_stocks(fishy=Fish.self) #how do i do this???
+    #print fertilizer amount, liters, rounded to 2dp
+    print(f"Fertilizer Available: {current_stock_dict['fert']:.2f} liters")
+    #print feed amount, kg, rounded to 2dp
+    print(f"Feed Available: {current_stock_dict['feed']:.2f} kg")
+    #print salt amount, kg, rounded to 2dp
+    print(f"Salt Available: {current_stock_dict['salt']:.2f} kg")
+    #print cash amound, pounds, rounded to 2 dp
+    print(f"Cash Balance: £{current_stock_dict['cash']:.2f}")           
 
 #Function to update stocks in warehouse ? 
 def Current_stocks():
-    #Append to dictionary number of labour days available
+    """
+    Updates the current amount of stocks in the dictionary
+    Loops through technicains in the list and adds the starting number of labour days
+    Then adds the values of what is inside the main and auxillary warehohouse for the other items
+    """
     current_stock_dict['maint_time']=len(Nans_Hatchy.current_techs)*45 #45 days of work per person
 
     #Adding sum of items in the warehouse 
+    #Add via warehouse class for main and aux, allow to add option for not replenishing fully 
+    #Add current amount in main and aux warehosue for fertilizer
     current_stock_dict['fert'] = main_warehouse.fert_amount + aux_warehouse.fert_amount #allows for not full replenishing
+    #Add current amount in main and aux warehosue for feed
     current_stock_dict['feed'] = main_warehouse.feed_amount + aux_warehouse.feed_amount
+    #Add current amount in main and aux warehosue for salt
     current_stock_dict['salt'] = main_warehouse.salt_amount + aux_warehouse.salt_amount
 
     print()
@@ -75,277 +115,391 @@ def Current_stocks():
 def Deplete_stocks():
     #for loop to loop through each item
     for species in Fishies: 
-
-        #determine value of each fish being bought each cycle   
-        #Display fish demands
+        """
+        Function that loops through the list of fish, meet demands and then deplete stocks accordingly
+    
+        Asks user input many of each fish to sell, to a maximum of the demand.
+        Checks if supplies are met, and if labour need is met
+        If all conditions met, stocks are minused from the dictionary. 
+        If not all conditions met, does not minus, unable to sell.
+        Moves on to next fish in the list. 
+        """
         print("-" * 60)
+      #Lines to seperate each fish section, for clarity  
+        print("-" * 60)
+        #Asks user for number of fish to try raise and sell. No answer/invalid answer means default 
         user_demand = input(f"How many {species['species']} are you selling this quarter? \nDon't enter anything for default demand of {species['demand']}").strip()
+        #If user does not enter anything
         if user_demand == '':
+            #create new variable 'demand' to assign how many fish are being sold 
+            #nothing entered means demand = default
             demand = species['demand']
-            print('Default selected')
-        elif int(user_demand) > species['demand']:
-            print('You tried to sell alot of fish! But there were no takers. You sold the default')
-            demand = species['demand']
+            #output to user
+            print('Default selected') 
         else: 
+            #try except for error handling
             try:
+                #convert to integer to perform functions
+                #assign demand variable to user input. 
+                #If doesnt meet error conditions, this will be the selected number
                 demand = int(user_demand) 
+                #if value entered under zero
                 if int(demand) < 0:
+                    #Invalid response
                     print('It needs to be a positive number. Default demand selected.')
+                    #automatic selection of default 
                     demand = species['demand']
+                #If user selects more fish to sell than demand
+                #convert to integer    
+                elif int(user_demand) > species['demand']:
+                    print('You tried to sell alot of fish! But there were no takers. You sold the default')
+                    #Fish sold = demand only 
+                    demand = species['demand']
+            #error handling for non-number answers 
             except ValueError:
+                #invalid response
                 print('It needs to be a number. Default demand selected')
+                #automatic selection of default
                 demand = species['demand']
-            
+         #Feedback to user that their value was selected 
+        print(f'Selected {demand}')
 
-        #determine how much of each is needed 
-        #demand * fertilizer amount needed per fish    
+        #determine how much of each item is needed 
+        #muiltiply each by demand     
         fert_need = species['fertilizer'] * demand
         feed_need = species['feed'] * demand
         salt_need = species['salt'] * demand
         maint_need = species['maint_time'] * demand
 
+        #Begin if else check statements for checking stock availability
+
+        #If the current amount of fert is above the need
         if current_stock_dict['fert'] >= fert_need:
+            #Let user know fertilizer amount enough
             print(f"{species['species']}: {fert_need}l fertilizer used.")
         else:
+            #If the current amount is not enough
             print(f"The {species['species']} died from lack of poor air quality! \n{species['species']} need {fert_need}liters of fertilizer, only {current_stock_dict['fert']}l available.")
             continue
-
+        
+        #If the current amount of feed is above the need    
         if current_stock_dict['feed'] >= feed_need:
             print(f"{species['species']}: {feed_need}kg feed used.")
         else:
+            #If the current amount is not enough
             print(f"The {species['species']} died from malnourishment! \n{species['species']} need {feed_need}kg of feed, only {current_stock_dict['feed']}kg available.")
             continue
 
+        #If the current amount of salt is above the need 
         if current_stock_dict['salt'] >= salt_need:
             print(f"{species['species']}: {salt_need}kg salt used.")
         else:
+            #If the current amount is not enough
             print(f"The {species['species']} died from reverse osmosis! \n{species['species']} need {salt_need}kg of salt, only {current_stock_dict['salt']}kg available.")
             continue
-        #####Maintenence 
+        
+        #If current amount of maintenence time is more than the need
         if current_stock_dict['maint_time']>=maint_need:
             print(f"{maint_need} days of work taken")
         else:
+            #If the current amount is not enough
             print(f"Your staff are overworked! {species['species']} need {maint_need} days of maintainence, only {current_stock_dict['maint_time']} available.")
             continue
+        
+        #Update current stocks in dictionary
+        #Current value - amount used 
+        #Only gets here once all the checks are conducted above
+        current_stock_dict['fert'] -= fert_need
+        current_stock_dict['feed'] -= feed_need
+        current_stock_dict['salt'] -= salt_need
+        current_stock_dict['maint_time']-= maint_need
 
-        new_fert_value = current_stock_dict['fert'] - fert_need
-        current_stock_dict['fert'] = (new_fert_value)
-        new_feed_value = current_stock_dict['feed'] - feed_need
-        current_stock_dict['feed'] = (new_feed_value)
-        new_salt_value = current_stock_dict['salt'] - salt_need
-        current_stock_dict['salt'] = (new_salt_value)
-        new_maint_value = current_stock_dict['maint_time']-maint_need
-        current_stock_dict['maint_time'] = (new_maint_value)
-
-        ##add money
+        #Counts revenue for the fish sold
+        #Line for calrity when viewing outputs
         print("-" * 60)
+        #calculate revenue by muliplying by amount sold (demand)
         fish_rev = species['price'] * demand 
-        add_rev = current_stock_dict['cash']+fish_rev
-        current_stock_dict['cash'] = add_rev
+        #Update into dictionary
+        current_stock_dict['cash']+= fish_rev
+        #Inform user current stocks avilable
+        print("Updated Stocks after selling")
+        #Display function to display it
         display_stocks()
 
-    #ok so: fish have fert, feed, salt
-    #1st type of fish: input number being sold:
-    #function loop starts: number of fish * fert 
-    #if enough fert in warehouses, move to next item, feed. 
-    #if enough feed in warehouses, move to next item 
-    #if enough salt in warehouses, move to next item
-    #must meet all variables before continue
-    #then  do labour
-    #the append everything
-    #loopy loop
-
-
 def Payments():
+    """
+    Calcuate standard fees, Technician fees, Warehouse Cost for each item in the Warehouse
+    Calls all the items available and mulitplies by their costs
+    """
+    #Line for visual clarity
     print("-" * 60)
+    #Quarterly payment, taken from Hatchery
     standard = Nans_Hatchy.quarterly_payment 
+    #Payment for technicians, number * pay
     tech_payments = len(Nans_Hatchy.current_techs)*6000 ###find way to put in nans_hatchy #500 mulitpled by 9 weeks
-    
+    #Payments for fertilizer, feed, salt in inventory after quarter. Uses main_warehouse._ as both values are same.
     warehouse_fert = current_stock_dict['fert']*main_warehouse.costs.fertilizer_warehouse #is in liters so it is ok
     warehouse_feed = (current_stock_dict['feed']*1000)*main_warehouse.costs.feed_warehouse #multiply by 1000 to convert to grams
     warehouse_salt = (current_stock_dict['salt']*1000)*main_warehouse.costs.salt_warehouse #multiply by 1000 to convert to grams
     
+    #Add all three payment types from warehouse and assign variable
     total_warehouse = warehouse_fert + warehouse_feed + warehouse_salt
+    #All all payments to be made and assign variable
     total_payments = standard + tech_payments + total_warehouse
+    #Statement to inform user of amount payable
     print(f"Quarterly warehouse fees: £{standard}\nTotal Technician Salary: £{tech_payments}\nTotal Warehouse Costs: £{total_warehouse:.2f}")
     
+    #Minus amount payable from cash in dictionary
     current_stock_dict['cash'] -= total_payments
-    print("Updated Stocks after Payments")
-    display_stocks()
+    #Inform user of cash balance after payments
     cash_balance = current_stock_dict['cash']
     make_pretty(f"Cash Balance: £{cash_balance:.2f}")
-    
 
-#Now restock your supples : 
-#Display inventory in the two warehouses 
-#function to see how much is left 
-#if amount less > than aux.amount (meaning aux warehouse still has things inside)
-    #minus off remainder from main warehouse 
-#if amount less < aux.amount (meaning aux warehouse is empty )
 
-#depreciation happenings: 
 def Depreciate ():
+    """ Function to calculate depreciation of each item in warehouse"""
+    #Depreciation= 0.x. Amount remaining = 1-(depreciation)
+    #run for all 3 items
     current_stock_dict['fert']*=(1-main_warehouse.costs.fertilizer_depreciation) #using main warehouse since does not matter where from
     current_stock_dict['feed']*= (1-main_warehouse.costs.feed_depreciation)
     current_stock_dict['salt']*= (1-main_warehouse.costs.salt_depreciation)
 
 def Warehouse_left():
-    #Going by the logic that auxillary will be drained LAST
-    if current_stock_dict['fert'] >= aux_warehouse.fert_amount: #meaning that the aux warehouse will be full, does not change
+    #If else statement for each item (fert, feed, salt)
+    
+    #FERTILIZER
+    #If current_stock_dict amount is more or equals to aux amount, aux is unchanged 
+    #The rest of the current stock amount is allocated to main
+    if current_stock_dict['fert'] >= aux_warehouse.fert_amount: 
         main_warehouse.fert_amount = current_stock_dict['fert'] - aux_warehouse.fert_amount #so calculate what is left in main warehosue
-    else: #current_stock_fict['fert'] <= aux_warehouse.fert.amount
-        aux_warehouse.fert_amount = current_stock_dict['fert'] #else main is empty, whatever is left is in the aux
+    #Else, leftover amount is less than aux amount 
+    #Meaning everything left over is in aux
+    #Assign zero to main warehouse 
+    else: 
+        aux_warehouse.fert_amount = current_stock_dict['fert']
         main_warehouse.fert_amount = 0 #assign 0 to main
-   
+    
+    #FEED
+    #If current_stock_dict amount is more or equals to aux amount, aux is unchanged 
+    #The rest of the current stock amount is allocated to main
     if current_stock_dict['feed'] >= aux_warehouse.feed_amount:
         main_warehouse.feed_amount = current_stock_dict['feed'] - aux_warehouse.feed_amount
+    #Else, leftover amount is less than aux amount 
+    #Meaning everything left over is in aux
+    #Assign zero to main warehouse 
     else:
         aux_warehouse.feed_amount = current_stock_dict['feed']
         main_warehouse.feed_amount = 0 
-    
+
+    #SALT
+    #If current_stock_dict amount is more or equals to aux amount, aux is unchanged 
+    #The rest of the current stock amount is allocated to main
     if current_stock_dict['salt'] >= aux_warehouse.salt_amount:
         main_warehouse.salt_amount = current_stock_dict['salt'] - aux_warehouse.salt_amount
+    #Else, leftover amount is less than aux amount 
+    #Meaning everything left over is in aux
+    #Assign zero to main warehouse 
     else:
         main_warehouse.salt_amount = current_stock_dict['salt']
         main_warehouse.salt_amount = 0
     
+    #Print out leftover in warehouse for user to see
+    #Line for visual clarity
     print("-" * 60)
     print("Your leftover supplies have depreciated! Here is what you have left now:")
-    print(f"Fertilizer left in Main Warehouse: {main_warehouse.fert_amount:.2f}")
-    print(f"Fertilizer left in Auxillary Warehouse: {aux_warehouse.fert_amount:.2f}")
-    print(f"Feed left in Main Warehouse: {main_warehouse.feed_amount:.2f}")
-    print(f"Feed left in Auxillary Warehouse: {aux_warehouse.feed_amount:.2f}")
-    print(f"Salt left in Main Warehouse: {main_warehouse.salt_amount:.2f}")
-    print(f"Salt left in Auxillary Warehouse: {aux_warehouse.salt_amount:.2f}")
+    print(f"Fertilizer left in Main Warehouse: {main_warehouse.fert_amount:.2f}liters")
+    print(f"Fertilizer left in Auxillary Warehouse: {aux_warehouse.fert_amount:.2f}liters")
+    print(f"Feed left in Main Warehouse: {main_warehouse.feed_amount:.2f}kg")
+    print(f"Feed left in Auxillary Warehouse: {aux_warehouse.feed_amount:.2f}kg")
+    print(f"Salt left in Main Warehouse: {main_warehouse.salt_amount:.2f}kg")
+    print(f"Salt left in Auxillary Warehouse: {aux_warehouse.salt_amount:.2f}kg")
 
-
-#Choose which vendor to buy from
-#Print Prices
 
 def restocker():
+    """
+    Function to restock supplies 
+    Display costs of each warehouse. 
+    Allow user to choose who to buy which item from
+    Charge user (minus cash) after all is done
+    """
+    #Let user know what is going on
     print("It's time to restock!")
     #Fertilizer, liters
+    #Calculate how much is needed to restock fert
+    #Total capacity minus what is inside currently
+    #Add together and assign a restock amount
     fert_restock_amount = (main_warehouse.fertilizer_capacity - main_warehouse.fert_amount) + (aux_warehouse.fertilizer_capacity-aux_warehouse.fert_amount) 
+    #while true loop for error handling
     while True:
+        #As user to select vendor
         restock_fertilizer = input(f'Where would you like to purchase your Fertilizer from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}') #since the names too long
+        #User selects option 1
         if restock_fertilizer == '1':
+            #calculate fertilizer price based on Vendor 1
             fert_price = fert_restock_amount * Slippery.fertilizer_cost
-            print(f"Paid £{fert_price:.2f} to {Slippery.name}")
+            #inform user of how much paid
+            print(f"Paid £{fert_price:.2f} to £{Slippery.name}")
+            #exit while loop and move on with function
             break
         elif restock_fertilizer == '2':
+            #calculate fertilizer price based on Vendor 2
             fert_price = fert_restock_amount * Scaly.fertilizer_cost
+            #inform user of how much paid
             print(f"Paid £{fert_price:.2f} to {Scaly.name}")
+            #exit while loop and move on with function
             break
+        #invalid response
         else: 
-            print('Type a number I understand please') #now how to go back?
+            #loop back until accepted answer
+            print('Type a number I understand please') 
     feed_restock_amount = (main_warehouse.feed_capacity - main_warehouse.feed_amount) + (aux_warehouse.feed_capacity-aux_warehouse.feed_amount) 
     while True:
         restock_feed = input(f'Where would you like to purchase your Feed from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}')
         if restock_feed == '1':
+            #calculate fertilizer price based on Vendor 1
             feed_price = feed_restock_amount * Slippery.feed_cost 
+            #inform user of how much paid
             print(f"Paid £{feed_price:.2f} to {Slippery.name}")
+            #exit while loop and move on with function
             break
         elif restock_feed == '2':
+            #calculate fertilizer price based on Vendor 2
             feed_price = feed_restock_amount * Scaly.feed_cost 
+            #inform user of how much paid
             print(f"Paid £{feed_price:.2f} to {Scaly.name}")
+            #exit while loop and move on with function
             break
+        #invalid response
         else: 
-            print('Type a number I understand please') #now how to go back?
+            print('Type a number I understand please') #Loop back until answer can be accepted
     salt_restock_amount = (main_warehouse.salt_capacity - main_warehouse.salt_amount) + (aux_warehouse.salt_capacity-aux_warehouse.salt_amount) 
     while True:
         restock_salt = input(f'Where would you like to purchase your Salt from? \n Enter [1] for {Slippery.name} and [2] for {Scaly.name}')
         if restock_salt == '1':
+            #calculate fertilizer price based on Vendor 1
             salt_price = (salt_restock_amount) * Slippery.salt_cost 
+            #inform user of how much paid
             print(f"Paid £{salt_price:.2f} to {Slippery.name}")
+            #exit while loop and move on with function
             break
         elif restock_salt == '2':
+            #calculate fertilizer price based on Vendor 2
             salt_price = (salt_restock_amount) * Scaly.salt_cost
+            #inform user of how much paid
             print(f"Paid £{salt_price:.2f} to {Scaly.name}")
+            #exit while loop and move on with function
             break
+        #invalid response
         else: 
-            print('Type a number I understand please') 
+            print('Type a number I understand please') #loop back until answer can be accepted
     
-    #manual restock all items (since it is fully replenished now)
-    main_warehouse.fert_amount = main_warehouse.fertilizer_capacity
-    main_warehouse.feed_amount = main_warehouse.feed_capacity
-    main_warehouse.salt_amount = main_warehouse.salt_capacity
-        
-    restock_price = fert_price+feed_price+salt_price
-    current_stock_dict['cash'] -= restock_price
-    #add supplies into restock also: 
-    #manually assign that its back at max? #better to assign the actual value restocked?? 
-    cash_balance = current_stock_dict['cash']
-    make_pretty(f"Cash Balance: £{cash_balance:.2f}")
-
-#Quarter Loopy
 def Quarter():
+    """ Loop to comprise all the functions that occur in a quarter """
+    #While true for error handling, must be an integer and above zero
     while True: 
         try:
+            #Asks for user input for number of quarters to run simulation
             quarters = int(input('Please type in how many quarters Fish Tycoon will run for:'))
+            #Unable to go less than 0
             if quarters <= 0:
+                #Informs user, brings back to loop
                 print("You need to run at least one quarter")
             else:
+                #If acceptable, break out of loop
                 break
+        #If not number
         except ValueError:
+            #loops back
             print("It needs to be a number")
     
+    #define a variable for the current quarter
     current_q = 1        
     
+    #Begin a big while loop for the number of quarters selected
     while quarters > 0:
 
+        #Displau start of each quarter
         make_pretty(f"Quarter {current_q} begins:")
-        # print("-" * 40)
-        # print(f"Quarter {current_q} begins:")
         
-        #Adding the Techs
+        #Call from Hatchery Class:
+        #Adding technicians (Tech Roster)
         Hatchery.Tech_Roster(Nans_Hatchy)
+        #Option to make ammendments
         Hatchery.Tech_Again(Nans_Hatchy)
+        #Display who has been hired
         Hatchery.Tech_display(Nans_Hatchy)
 
-        #Update stocks now that techs are hired~
+        #Update stocks now that techs are hired
         Current_stocks() #update the stocks first
+        #Display to user what they  have available
         print("Your resources for the year:")
+        #Function to display
         display_stocks()
 
         #Selling fishes!
         make_pretty("Time to Sell Fish!!")
+        #Function to let user input fishes to sell
+        #Deplete stocks accordingly
         Deplete_stocks() #selling fish
+        #Making payments for warehouse and others
         Payments()
-        #put in a if/else checkpoint, if currently in the negatives, bankrupt! bad ending
         
-        if current_stock_dict['cash'] <0:
+        #if/else checkpoint, if currently in the negatives, bankrupt! bad ending
+        if current_stock_dict['cash'] <0: #if negative
+            #Let user know
             print("Oh no! You could not pay your Technicians! \nThey unionized and filed a lawsuit. \nYou went bankrupt and the hatchery closed.")
+            #Game over
             make_pretty("Bad Ending. Game Over")
+            #Break out of loop
             break
         
+        #If survived
         #Update stocks!
         Depreciate()
+        #Function to let the warehosue items depreciate
         Warehouse_left()
+        #Function to calcuate what is left in the warehouse
 
+        #Display for next portion, to restock
         make_pretty("Rrepare for the next quarter. Restock!")
+        #Inform users their options
         print('These two vendors work with you:')
+        #Displau vendor 1
         Slippery.display()
+        #Displau vendor 2
         Scaly.display()
+        #Function for users to restock
         restocker()
 
+        #Bankrup checkpount, if in negatives:
         if current_stock_dict['cash'] < 0:
+            #Inform user
             print("Oh no! You couldnt pay the vendors! \nThey boycotted you so your fishes died. \nThe hatchery had to close down.")
+            #Game over
             make_pretty("Bad Ending. Game Over")
+            #Exit loop
             break
+        #If in positives
         print(f'Congrats! The hatchery survived the Quarter')
+        #If this is the last loop (quarters is 1, will lead to 0 thus loop break in next round)
         if quarters == 1:
+            #aim of game as been achieed
             print("Good job! Your hatchery survived. Go forth and raise fishes")
-            make_pretty("Good Ending. Game Over.")
-        quarters -= 1 #reduce number of loops left 
-        current_q += 1 #add number for current quarter
+            make_pretty("Good Ending. Game Over.") #game over
+        #reduce number of loops left (for the while loop > 0 criteria)
+        quarters -= 1 
+        #add number for current quarter
+        current_q += 1 
 
+#Opening statement
 print("Welcome to Fish Tycoon, Please Try Not to Go Bankrupt.")
 print("Have fun!")
+#Let user know starting money
 print(f"You start with £{Nans_Hatchy.cash}")
-display_stocks()
 
+#Game loop function
 Quarter()
+#Once everything is over, goodbye message
 print("Thanks for playing! Have a nice day")
-
 
         
