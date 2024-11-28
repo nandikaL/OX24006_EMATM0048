@@ -66,7 +66,7 @@ class `Hatchery` - this has self, supplies and cash
 Class will be initialized in `main.py` using:
 Hatchery(name of hatchery, supples, amount of starting cash)
 
-class `Technician` -  name, specialty and days of work, it is meant to be editable. However in `main.py`, the total pay has been written as a standard 6000. 
+class `Technician` -  name, specialty and days of work, it is meant to be editable. An empty technican class is also initialized at the begining.  
 
 Within this class there are two display methods
 - `Tech_display`  for displaying the technicians after being hired 
@@ -95,7 +95,7 @@ Step 2: Defining functions
 2. `display_stocks()` Nicely displays the inventory in current_stock_dict. For users referece
 3. `Current_stocks()` Updates the current amount of stocks in the dictionary 
 4. `Deplete_stocks()` Function that loops through the list of fish, meet demands and then deplete stocks accordingly. This function is part of the main selling process, and takes in the users inputs, calculate how much supplies are needed. The sales pass/fail based on the calculations.
-5. `Payments()` Calcuate standard fees, Technician fees, Warehouse Cost for each item left in the Warehouse. Note technician pay is written directly here as 6000. 
+5. `Payments()` Calcuate standard fees, Technician fees, Warehouse Cost for each item left in the Warehouse. 
 6. `Depreciate()` Calculate depreication amount of each item in the warehouse
 7. `Warehouse_left()`  Function to determine how much of each item (Fert, Feed, Salt) in Main & Aux Warehouses. Because the values were not counted sepertely when looking at the warehouses during stocking/depletion, we take the logic here that auxillary is drained last. Calculations are made accordingly to this. Returns the amounts left in the warehouses.
 8. `restocker()` Allows user to select which warehosue they want to restock each item from. User is charged after all the decisions are made. Currently, there is only the option of fully restocking, despite having preparations for custom stocking. The warehouses are returned to their max capacity. 
