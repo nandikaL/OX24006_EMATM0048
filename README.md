@@ -66,7 +66,7 @@ class `Hatchery` - this has self, supplies and cash
 Class will be initialized in `main.py` using:
 Hatchery(name of hatchery, supples, amount of starting cash)
 
-class `Technician` -  name, specialty and days of work, it is meant to be editable. However in `main.py`, the total pay has been written as a standard 6000. 
+class `Technician` -  name, specialty and days of work, it is meant to be editable. Empty technician class is instanciated in main.
 
 Within this class there are two display methods
 - `Tech_display`  for displaying the technicians after being hired 
@@ -130,5 +130,9 @@ https://github.com/nandikaL/OX24006_EMATM0048.git
 Main package is the standard run of the simulator, with no technician specialty. 
 **Extended-Version
 The main difference between this and main is the technician specialties. This occurs in HatcheryClass and main.py
+
+type into terminal:
+`git checkout main`
+`git checkout Extended-Version`
 
 

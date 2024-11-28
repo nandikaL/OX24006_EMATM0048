@@ -24,4 +24,3 @@ class Warehouse:
             self.fertilizer_warehouse = 0.1 #liters
             self.feed_warehouse = 0.001 #pounds per gram
             self.salt_warehouse = 0.001 #pounds per gram
-#depreciation = cost x remainder
