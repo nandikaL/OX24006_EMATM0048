@@ -55,6 +55,8 @@ Scaly = Vendor('Scaly_Wholesaler',0.20,0.40,0.25)
 #Insanciate Hatchery, 'Nans' Hatchery
 Nans_Hatchy = Hatchery('supplies', 10000)
 
+empty_tech = Hatchery.Technician('empty')
+
 ##DICTIONARY 
 
 #Create a dictonary of the things that flow within the hatchery
@@ -97,7 +99,7 @@ def Current_stocks():
     Loops through technicains in the list and adds the starting number of labour days
     Then adds the values of what is inside the main and auxillary warehohouse for the other items
     """
-    current_stock_dict['maint_time']=len(Nans_Hatchy.current_techs)*45 #45 days of work per person
+    current_stock_dict['maint_time']=len(Nans_Hatchy.current_techs)*empty_tech.labourdays #45 days of work per person
 
     #Adding sum of items in the warehouse 
     #Add via warehouse class for main and aux, allow to add option for not replenishing fully 
@@ -236,7 +238,7 @@ def Payments():
     #Quarterly payment, taken from Hatchery
     standard = Nans_Hatchy.quarterly_payment 
     #Payment for technicians, number * pay
-    tech_payments = len(Nans_Hatchy.current_techs)*6000 ###find way to put in nans_hatchy #500 mulitpled by 9 weeks
+    tech_payments = len(Nans_Hatchy.current_techs)*empty_tech.total_pay ###find way to put in nans_hatchy #500 mulitpled by 9 weeks
     #Payments for fertilizer, feed, salt in inventory after quarter. Uses main_warehouse._ as both values are same.
     warehouse_fert = current_stock_dict['fert']*main_warehouse.costs.fertilizer_warehouse #is in liters so it is ok
     warehouse_feed = (current_stock_dict['feed']*1000)*main_warehouse.costs.feed_warehouse #multiply by 1000 to convert to grams
